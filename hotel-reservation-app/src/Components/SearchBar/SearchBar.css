@@ -1,0 +1,134 @@
+/* Contenedor principal */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Campos de búsqueda */
+.search-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.search-field label {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Input de texto */
+.search-input,
+.search-date {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 200px;
+  color: #7a7676;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus,
+.search-date:focus {
+  border-color: #092060; /* Azul más oscuro */
+  outline: none;
+}
+
+/* Botón de búsqueda */
+.search-button {
+  padding: 10px 20px;
+  background-color: #092060;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #27496d;
+}
+/* Contenedor principal */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustar las proporciones en pantallas pequeñas */
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center;
+  }
+
+  .search-button {
+    width: 100%; /* El botón ocupa todo el ancho */
+    max-width: 300px; /* Límite opcional */
+  }
+}
+
+/* Campos de búsqueda */
+.search-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 1; /* Permite que los campos ocupen el mismo espacio */
+}
+
+.search-field label {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Input de texto */
+.search-input,
+.search-date {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%; /* Ocupa el ancho disponible */
+  max-width: 300px; /* Límite opcional para inputs */
+  color: #7a7676;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus,
+.search-date:focus {
+  border-color: #092060; /* Azul más oscuro */
+  outline: none;
+}
+
+/* Botón de búsqueda */
+.search-button {
+  padding: 10px 20px;
+  background-color: #092060;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #27496d;
+}

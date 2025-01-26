@@ -1,0 +1,80 @@
+.main-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* Separación entre secciones */
+}
+
+/* Sección de búsqueda */
+.search-section {
+  text-align: center;
+}
+
+.search-section h2 {
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+/* Categorías */
+.categories-section {
+  text-align: center;
+}
+
+.categories-section h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
+
+.categories-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+/* Botones principales */
+.category-item,
+.recommendation-item {
+  background-color: #27496d; /* Azul profesional */
+  color: #ffffff; /* Texto blanco */
+  padding: 15px 20px;
+  border-radius: 8px; /* Bordes redondeados */
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Efecto hover */
+.category-item:hover,
+.recommendation-item:hover {
+  background-color: #092060; /* Azul más oscuro */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Más profundidad */
+}
+
+/* Opcional: bordes para botones */
+.category-item,
+.recommendation-item {
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+}
+
+/* Recomendaciones */
+.recommendations-section {
+  text-align: center;
+  color: #ffffff;
+}
+
+.recommendations-section h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.recommendation-item:hover {
+  background-color: #27496d;
+  transform: scale(1.05);
+}
