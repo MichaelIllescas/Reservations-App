@@ -1,0 +1,19 @@
+.price{
+    font-size: large;
+}
+
+.div-price{
+    position: absolute;
+    bottom: -20px;
+    width: 90%;
+}
+.btn-outline-primary{
+    background-color: #629584!important;
+    color: #E2F1E7 !important;
+    transition: all .3s ease;
+}
+
+.btn-outline-primary:hover{
+    background-color: #243642!important;
+    color: #E2F1E7 !important;
+}

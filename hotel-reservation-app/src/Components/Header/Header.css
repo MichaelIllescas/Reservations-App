@@ -1,13 +1,22 @@
 .custom-navbar {
-  background-color: rgba(14, 42, 77, 0.8);
+  background-color: rgba(36, 54, 66, 0.95);
 }
 
 .logo-img {
+  margin: auto;
+  width: 50px;
   height: 50px;
   margin-right: 20px;
+  color: wheat;
+  background-color: white;
+  border-radius: 10%;
 }
 header {
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+.btn-outline-light{
+  transition: all .3s !important;
 }

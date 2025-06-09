@@ -17,10 +17,14 @@
 
 /* Categorías */
 .categories-section {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  width: 25%;
 }
 
 .categories-section h2 {
+  
   margin-bottom: 20px;
   font-size: 1.6rem;
 }
@@ -30,11 +34,12 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
+  flex-direction: column;
 }
 /* Botones principales */
 .category-item,
 .recommendation-item {
-  background-color: #27496d; /* Azul profesional */
+  background-color: #27496d !important; /* Azul profesional */
   color: #ffffff; /* Texto blanco */
   padding: 15px 20px;
   border-radius: 8px; /* Bordes redondeados */
@@ -47,7 +52,7 @@
 /* Efecto hover */
 .category-item:hover,
 .recommendation-item:hover {
-  background-color: #092060; /* Azul más oscuro */
+  background-color: #092060 ; /* Azul más oscuro */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Más profundidad */
 }
 
@@ -61,6 +66,7 @@
 .recommendations-section {
   text-align: center;
   color: #ffffff;
+  width: 75%;
 }
 
 .recommendations-section h2 {
@@ -77,4 +83,13 @@
 .recommendation-item:hover {
   background-color: #27496d;
   transform: scale(1.05);
+}
+
+
+h1.highlighted-title {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* sombra negra */
+  letter-spacing: 1px;
+  text-align: center; /* opcional */
 }

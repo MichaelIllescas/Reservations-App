@@ -1,0 +1,9 @@
+.register-form{
+    background-color: #243642 !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.icon-password:hover{
+    color: #387478 !important;
+}

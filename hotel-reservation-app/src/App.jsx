@@ -1,6 +1,5 @@
-import React from "react";
-import AppRouter from "./router/AppRouter";
 import MainLayout from "./layout/MainLayout";
+import AppRouter from "./router/AppRouter";
 
 function App() {
   return (

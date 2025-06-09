@@ -1,5 +1,5 @@
-import React from "react";
 import "./Header.css";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -25,10 +25,10 @@ function Header() {
 
           <div className="collapse navbar-collapse" id="navbarNav">
             <div className="ms-auto d-flex">
-              <button className="btn btn-outline-light me-2">
+              <Link to={"/register"} className="btn btn-outline-light me-2">
                 Crear cuenta
-              </button>
-              <button className="btn btn-outline-light">Iniciar sesión</button>
+              </Link>
+              <Link to={"/login"} className="btn btn-outline-light">Iniciar sesión</Link>
             </div>
           </div>
         </div>
