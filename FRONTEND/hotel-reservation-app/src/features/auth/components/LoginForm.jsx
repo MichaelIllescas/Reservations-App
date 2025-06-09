@@ -1,89 +1,125 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useForm from "../../../hooks/useForm";
+import { validateLoginForm } from "../Validation/validateLoginForm";
+import { useLogin } from "../hooks/useLogin";
+import logo from "../../../assets/img/logo.png";
+// import "../styles/login.css";
 import { Link } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import "../styles/loginForm.css";
 
-function LoginForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    recordar: false,
-  });
+const LoginForm = () => {
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const { formData, errors, handleChange, handleSubmit } = useForm(
+    {
+      email: "",
+      password: "",
+    },
+    validateLoginForm
+  );
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
-  };
+  const { handleLogin, errorMessage } = useLogin();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login:", formData);
-  };
+  // Al cargar el componente, si hay un email recordado lo carga en el form
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      handleChange({ target: { name: "email", value: savedEmail } });
+      setRememberMe(true);
+    }
+  }, []);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(prev => !prev);
+  const onSubmit = async (formData) => {
+    if (rememberMe) {
+      localStorage.setItem("rememberedEmail", formData.email);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+    }
+
+    await handleLogin(formData.email, formData.password);
   };
 
   return (
-    <div className="container">
-      
-    <form onSubmit={handleSubmit} className="p-4 border rounded loginForm">
-      <h3 className="mb-3">Iniciar Sesión</h3>
-
-      <div className="mb-3">
-        <label>Email</label>
-        <input
-          type="email"
-          className="form-control"
-          name="email"
-          onChange={handleChange}
-          required
-          />
+    <div className="card shadow-lg border-0 p-4">
+      <div className="text-center mb-4">
+        <img src={logo} alt="Logo" className="img-fluid logo-img" />
       </div>
 
-      <div className="mb-3">
-        <label>Contraseña</label>
-        <div className="input-group">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        {/* Email */}
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
           <input
-            type={showPassword ? "text" : "password"}
-            className="form-control"
-            name="password"
+            type="email"
+            id="email"
+            name="email"
+            className={`form-control ${errors.email ? "is-invalid" : ""}`}
+            value={formData.email}
             onChange={handleChange}
+            placeholder="Ingrese su email"
             required
-            />
-          <button
-            type="button"
-            className="btn bg-white icon-password"
-            onClick={togglePasswordVisibility}
-            tabIndex={-1}
-            >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          />
+          {errors.email && (
+            <div className="invalid-feedback">{errors.email}</div>
+          )}
+        </div>
+
+        {/* Password */}
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className={`form-control ${errors.password ? "is-invalid" : ""}`}
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Ingrese su contraseña"
+            required
+          />
+          {errors.password && (
+            <div className="invalid-feedback">{errors.password}</div>
+          )}
+        </div>
+
+        {/* Recuérdame */}
+        <div className="form-check mb-3">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id="rememberMe"
+            checked={rememberMe}
+            onChange={() => setRememberMe(!rememberMe)}
+          />
+          <label className="form-check-label" htmlFor="rememberMe">
+            Recuérdame
+          </label>
+        </div>
+
+        {/* Botón */}
+        <div className="d-grid">
+          <button type="submit" className="btn btn-primary">
+            Iniciar sesión
           </button>
         </div>
-      </div>
+      </form>
 
-      <div className="form-check mb-2">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          name="recordar"
-          onChange={handleChange}
-          />
-        <label className="form-check-label">Recordarme</label>
-      </div>
+      {errorMessage && (
+        <div className="alert alert-danger mt-3 text-center">
+          {errorMessage}
+        </div>
+      )}
 
-      <button className="btn btn-primary w-100">Ingresar</button>
-
-      <div className="mb-3 text-center forgot-passwor-link">
-        <Link to="/recuperar-clave" className="small forgot-passwor-link">
+      <div className="mt-3 text-center">
+        <Link className="enlace" to={"/forgotPassword"}>
           ¿Olvidaste tu contraseña?
         </Link>
       </div>
-    </form>
-          </div>
+    </div>
   );
-}
+};
 
 export default LoginForm;

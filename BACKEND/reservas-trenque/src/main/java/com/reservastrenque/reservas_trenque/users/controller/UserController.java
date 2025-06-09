@@ -67,7 +67,6 @@ public class UserController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody CreateUserRequest request) {
         UserDTO createdUser = registerUserUseCase.execute(request);
