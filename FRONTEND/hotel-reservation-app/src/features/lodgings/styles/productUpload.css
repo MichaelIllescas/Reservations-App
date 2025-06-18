@@ -1,0 +1,100 @@
+/* Contenedor general */
+.product-upload-container {
+  max-width: 85%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 2rem 1rem;
+  font-family: 'Inter', sans-serif;
+  color: #121516;
+  border-radius: 5px;
+  box-shadow:  1px 1px 10px 2px rgb(8, 4, 48);
+}
+
+/* Título principal */
+.product-upload-container h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Formulario */
+.product-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Etiquetas y campos */
+.product-upload-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Campos de entrada y textarea */
+.form-input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #dde1e3;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #121516;
+  background-color: white;
+}
+
+.form-input::placeholder {
+  color: #6a7781;
+}
+
+/* Caja de subida de imágenes */
+.image-upload-box {
+  padding: 2rem;
+  border: 2px dashed #dde1e3;
+  border-radius: 0.5rem;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.image-upload-box p {
+  margin: 0.25rem 0;
+}
+
+/* Botón de subir imágenes */
+.btn-upload {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #f1f2f4;
+  color: #121516;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-upload:hover {
+  background-color: #e0e1e2;
+}
+
+/* Botón de enviar */
+.form-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-submit {
+  padding: 0.5rem 1.25rem;
+  background-color: #b2d0e5;
+  color: #121516;
+  border: none;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #9ebfd8;
+}

@@ -1,0 +1,9 @@
+.direccion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.direccion-form legend {
+  font-weight: 600;
+}

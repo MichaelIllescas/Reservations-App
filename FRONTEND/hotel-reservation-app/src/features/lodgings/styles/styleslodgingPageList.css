@@ -1,0 +1,18 @@
+.container-list{
+  box-shadow:  1px 1px 10px 2px rgb(8, 4, 48) !important;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 2rem 1rem;
+  font-family: 'Inter', sans-serif;
+  color: #121516;
+  border-radius: 5px;
+    max-width: 85%;
+
+}
+/* Título principal */
+.container-list h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}

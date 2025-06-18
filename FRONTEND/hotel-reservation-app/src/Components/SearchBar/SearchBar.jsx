@@ -3,7 +3,7 @@ import "../SearchBar/SearchBar.css";
 function SearchBar() {
   return (
     <>
-      <div className="search-bar">
+      <div className="search-bar container">
         {/* Campo de texto para buscar por nombre o ubicación */}
         <div>
           <label htmlFor="type-housing">Alojamiento</label>

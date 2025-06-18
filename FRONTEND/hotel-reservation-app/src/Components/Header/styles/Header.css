@@ -20,3 +20,30 @@ header {
 .btn-outline-light{
   transition: all .3s !important;
 }
+
+@media (max-width: 991px) {
+   .guest-nav-buttons {
+    margin-top: 20px;
+   }
+}
+
+
+@media (max-width: 576px) {
+  .guest-nav-buttons {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem;
+  }
+
+  .guest-nav-buttons .btn {
+    width: 90%;
+    margin-top: 10px;
+  }
+    .guest-nav-buttons .btn:last-child {
+   
+    margin-bottom: 10px;
+  }
+
+  .legend-nav{display: none;}
+}

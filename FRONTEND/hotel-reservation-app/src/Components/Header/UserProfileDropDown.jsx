@@ -10,8 +10,7 @@ const UserProfileDropDown = () => {
   const { handleLogout, isLoading } = useLogout();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { user, setUser  } = useAuth();
-  const userPhotoUrl = "";
-  const hasValidImage = userPhotoUrl && userPhotoUrl.trim() !== "";
+
 
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
@@ -54,6 +53,15 @@ const UserProfileDropDown = () => {
               Mis reservas
             </NavLink>
           </li>
+                      <hr className="dropdown-divider" />
+
+           {user.role === 'ADMIN' && ( <li>
+            <NavLink className="dropdown-item" to="/admindashboard">
+              Panel de Administración
+            </NavLink>
+          </li>)}
+
+
           <li>
             <hr className="dropdown-divider" />
           </li>

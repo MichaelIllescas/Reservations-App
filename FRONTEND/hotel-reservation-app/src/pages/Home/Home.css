@@ -67,6 +67,7 @@
   text-align: center;
   color: #ffffff;
   width: 75%;
+  
 }
 
 .recommendations-section h2 {
@@ -86,10 +87,26 @@
 }
 
 
-h1.highlighted-title {
+h1.highlighted-title, h2.highlighted-title {
   color: #ffffff;
   font-weight: 700;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* sombra negra */
   letter-spacing: 1px;
   text-align: center; /* opcional */
+}
+
+
+
+@media (max-width: 768px) {  
+
+.categories-section{
+  width: 100%;
+} 
+.recommendations-section{
+   width: 100%;
+}
+.recommendations-section h2{
+  margin-top: 30px;
+}
+
 }

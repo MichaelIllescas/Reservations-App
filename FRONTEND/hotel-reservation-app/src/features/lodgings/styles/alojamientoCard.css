@@ -1,0 +1,67 @@
+.card{
+    background-color: #f4faf6 !important;
+}
+
+.price{
+    font-size: large;
+}
+
+.valoration {
+ 
+
+}
+.text-samll{
+    font-size: 1rem !important;
+}
+
+
+.div-price{
+    position: absolute;
+    bottom: -20px;
+    width: 90%;
+}
+.btn-outline-primary{
+    background-color: #629584!important;
+    color: #E2F1E7 !important;
+    transition: all .3s ease;
+}
+
+.btn-outline-primary:hover{
+    background-color: #243642!important;
+    color: #E2F1E7 !important;
+}
+
+@media (max-width: 1400px) {  
+  .valoration{
+    display: flex;
+    flex-direction: column;
+    
+  }
+
+  .title-card{
+    font-size: 1.1rem;
+  }
+  .price{
+    font-size: 1rem;
+  } 
+   .card-lodging{
+        margin-right: 100px !important;
+    }
+
+    
+}
+
+@media (max-width: 768px) {  
+
+    .title-card{
+        font-size: 1.5rem;
+    }
+    .recommendations-section ul{
+        margin: 0 auto;;
+    }
+    .price{
+        font-size: 1.3rem;
+    }
+}
+
+

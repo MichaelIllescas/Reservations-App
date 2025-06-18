@@ -3,11 +3,13 @@ import useForm from "../../../hooks/useForm";
 import { validateLoginForm } from "../Validation/validateLoginForm";
 import { useLogin } from "../hooks/useLogin";
 import logo from "../../../assets/img/logo.png";
-// import "../styles/login.css";
 import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import '../styles/loginForm.css';
 
 const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { formData, errors, handleChange, handleSubmit } = useForm(
     {
@@ -19,7 +21,6 @@ const LoginForm = () => {
 
   const { handleLogin, errorMessage } = useLogin();
 
-  // Al cargar el componente, si hay un email recordado lo carga en el form
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
     if (savedEmail) {
@@ -40,16 +41,14 @@ const LoginForm = () => {
 
   return (
     <div className="card shadow-lg border-0 p-4">
-      <div className="text-center mb-4">
-        <img src={logo} alt="Logo" className="img-fluid logo-img" />
+      <div className="text-center mb-4 ">
+        <img src={logo} alt="Logo" className="img-fluid logo-img-login" />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         {/* Email */}
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
+          <label htmlFor="email" className="form-label">Email</label>
           <input
             type="email"
             id="email"
@@ -58,31 +57,33 @@ const LoginForm = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="Ingrese su email"
-            required
           />
-          {errors.email && (
-            <div className="invalid-feedback">{errors.email}</div>
-          )}
+          {errors.email && <div className="invalid-feedback">{errors.email}</div>}
         </div>
 
-        {/* Password */}
+        {/* Contraseña */}
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Contraseña
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            className={`form-control ${errors.password ? "is-invalid" : ""}`}
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Ingrese su contraseña"
-            required
-          />
-          {errors.password && (
-            <div className="invalid-feedback">{errors.password}</div>
-          )}
+          <label htmlFor="password" className="form-label">Contraseña</label>
+          <div className="input-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Ingrese su contraseña"
+            />
+            <button
+              type="button"
+              className="btn icon-password "
+              onClick={() => setShowPassword(prev => !prev)}
+              tabIndex={-1}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+          {errors.password && <div className="invalid-feedback">{errors.password}</div>}
         </div>
 
         {/* Recuérdame */}
@@ -99,7 +100,7 @@ const LoginForm = () => {
           </label>
         </div>
 
-        {/* Botón */}
+        {/* Botón de envío */}
         <div className="d-grid">
           <button type="submit" className="btn btn-primary">
             Iniciar sesión
@@ -107,12 +108,14 @@ const LoginForm = () => {
         </div>
       </form>
 
+      {/* Mensaje de error */}
       {errorMessage && (
         <div className="alert alert-danger mt-3 text-center">
           {errorMessage}
         </div>
       )}
 
+      {/* Link a recuperar contraseña */}
       <div className="mt-3 text-center">
         <Link className="enlace" to={"/forgotPassword"}>
           ¿Olvidaste tu contraseña?

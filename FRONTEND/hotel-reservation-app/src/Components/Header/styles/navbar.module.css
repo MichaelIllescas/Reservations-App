@@ -30,9 +30,6 @@ body {
 }
 
 
-
-
-
 .dropdownAvatar {
   width: 40px;
   height: 40px;
@@ -49,4 +46,12 @@ body {
 
 .dropdownButton:focus{
   border: none;
+}
+
+@media (max-width: 991px) {
+  span{ display: none;}
+
+  .navbar-btn{ padding: 20px !important;}
+
+
 }

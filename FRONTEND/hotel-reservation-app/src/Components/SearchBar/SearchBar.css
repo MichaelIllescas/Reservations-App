@@ -61,18 +61,9 @@
 }
 
 
-/* Ajustar las proporciones en pantallas pequeñas */
-@media (max-width: 768px) {
-  .search-bar {
-    flex-direction: column; /* Apila los elementos verticalmente */
-    align-items: center;
-  }
 
-  .search-button {
-    width: 100%; /* El botón ocupa todo el ancho */
-    max-width: 300px; /* Límite opcional */
-  }
-}
+
+
 
 /* Campos de búsqueda */
 .search-field {
@@ -92,12 +83,11 @@
 /* Input de texto */
 .search-input,
 .search-date {
-  padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
-  width: 100%; /* Ocupa el ancho disponible */
-  max-width: 300px; /* Límite opcional para inputs */
+  width: 100% !important; 
+  min-width: 300px !important;
   color: #7a7676;
   transition: border-color 0.3s;
 }
@@ -108,5 +98,18 @@
   outline: none;
 }
 
+/* Ajustar las proporciones en pantallas pequeñas */
+@media (max-width: 992px) {
+  .search-bar {
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center;
+  }
+  .search-input,
+  .search-date {
+    
+    min-width: 70dvw !important;
+}
+
+}
 
 

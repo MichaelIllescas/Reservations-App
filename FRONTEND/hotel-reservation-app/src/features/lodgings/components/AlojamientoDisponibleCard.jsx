@@ -1,5 +1,5 @@
 import { FaBed, FaMapMarkerAlt } from "react-icons/fa";
-import "./AlojamientoDisponibleCard.css"; // Para estilos opcionales
+import "../styles/AlojamientoDisponibleCard.css";
 import { Link } from "react-router-dom";
 
 function AlojamientoDisponibleCard({ alojamiento }) {
@@ -25,8 +25,8 @@ function AlojamientoDisponibleCard({ alojamiento }) {
             ))}
           </ul>
 
-        <p className="fw-bold text-primary mb-2">${alojamiento.precioPorNoche.toLocaleString()} por noche</p>
-          <Link to={"/lodgingDetail"} className="btn btn-outline-primary mt-auto w-50">Ver detalles</Link>
+        <p className="fw-bold text-primary mb-2">${alojamiento.precioPorNoche.toLocaleString()}<small>/noche</small></p>
+          <Link to={"/lodgingDetail"} className="btn btn-outline-primary mt-auto link-details">Ver detalles</Link>
         </div>
 
         {/* Imagen a la derecha */}
