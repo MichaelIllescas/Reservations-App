@@ -98,3 +98,9 @@
 .btn-submit:hover {
   background-color: #9ebfd8;
 }
+
+
+.error{
+  color: red;
+  font-size: .8rem;
+}

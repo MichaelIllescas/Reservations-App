@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingRequest;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingResponse;
 import com.reservastrenque.reservas_trenque.products.usecase.CreateLodgingUseCase;
+import com.reservastrenque.reservas_trenque.products.usecase.GetAllLodgingsUseCase;
 import com.reservastrenque.reservas_trenque.shared.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,12 +20,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @EnableMethodSecurity(prePostEnabled = true)
 @RestController
 @RequestMapping("/lodgings")
 @RequiredArgsConstructor
 public class LodgingController {
 
+    private final GetAllLodgingsUseCase getAllLodgingsUseCase;
     private final CreateLodgingUseCase createLodgingUseCase;
 
     @Autowired
@@ -100,4 +104,22 @@ public class LodgingController {
                     .body(new ApiResponse<>("Error al procesar la solicitud: " + e.getMessage(), null));
         }
     }
+
+    @Operation(
+            summary = "Obtener todos los alojamientos",
+            description = "Este endpoint devuelve una lista con todos los alojamientos registrados."
+    )
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Lista de alojamientos obtenida exitosamente",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = LodgingResponse.class))
+            )
+    })
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<LodgingResponse>>> getAllLodgings() {
+        List<LodgingResponse> lodgings = getAllLodgingsUseCase.execute();
+        return ResponseEntity.ok(new ApiResponse<>("Lista de alojamientos obtenida exitosamente", lodgings));
+    }
+
 }

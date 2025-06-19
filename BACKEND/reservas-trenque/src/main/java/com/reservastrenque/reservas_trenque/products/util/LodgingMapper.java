@@ -5,9 +5,11 @@ import com.reservastrenque.reservas_trenque.products.dto.LodgingRequest;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingResponse;
 import com.reservastrenque.reservas_trenque.products.location.model.City;
 import com.reservastrenque.reservas_trenque.products.model.*;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@Component
 public class LodgingMapper {
 
     public static LodgingResponse toResponse(Lodging lodging) {

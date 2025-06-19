@@ -1,140 +1,143 @@
-import { useState } from "react";
 import "../styles/productUpload.css";
 import AddressForm from "../../../Components/Address/AddressForm";
 import FeaturesForm from "../../../Components/FeaturesCheks/FeaturesForm";
 import ImageUpload from "../../../Components/UploadImages/ImageUpload";
-
-const COMODIDADES = [
-  "AIRE_ACONDICIONADO",
-  "CALEFACCION",
-  "WIFI",
-  "TV",
-  "PISCINA",
-  "COCHERA",
-  "COCINA",
-  "BALCON",
-  "ACCESIBLE",
-  "APTO_MASCOTAS",
-  "ROPA_DE_CAMA",
-  "DESAYUNO_INCLUIDO",
-];
+import useForm from "../../../hooks/useForm";
+import useFeatures from "../hooks/useFeatures";
+import validateProductForm from "../validations/productFormValidation";
+import { useState } from "react";
+import LodgingTypeSelect from "./LodgingTypeSelect";
+import CapacityInput from "./CapacityInput";
+import PriceInput from "./PriceInput";
+import ResponsibleForm from "./ResponsibleForm";
+import LodgingTitleInput from "./LodgingTitleInput";
+import LodgingDescriptionInput from "./LodgingDescriptionInput";
+import useLodgingSubmit from "../hooks/useLodgingSubmit";
+import { showSuccessAlert } from "../../../Components/Alerts/alerts";
 
 export default function ProductUpload() {
-  const [form, setForm] = useState({
-    titulo: "",
-    descripcion: "",
-    ubicacion: "",
-    tipo: "",
-    capacidad: "",
-    comodidades: [],
-    precio: "",
-  });
+  const { features, loading, error } = useFeatures();
+  const { submitLodging, isSubmitting, submitError } = useLodgingSubmit();
+  const [resetAddressForm, setResetAddressForm] = useState(false);
+  const [resetResponsibleForm, setResetResponsibleForm] = useState(false);
+  const [address, setAddress] = useState(null);
+  const [responsible, setResponsible] = useState(null);
+  const [images, setImages] = useState([]);
+  const [formResetKey, setFormResetKey] = useState(0); // 👈 nuevo
 
-  
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleComodidadChange = (comodidad) => {
-    setForm((prev) => {
-      const alreadySelected = prev.comodidades.includes(comodidad);
-      const updated = alreadySelected
-        ? prev.comodidades.filter((c) => c !== comodidad)
-        : [...prev.comodidades, comodidad];
-      return { ...prev, comodidades: updated };
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Datos del alojamiento:", form);
-  };
+  const { formData, errors, handleChange, handleSubmit, resetForm } = useForm(
+    {
+      titulo: "",
+      descripcion: "",
+      ubicacion: "",
+      tipo: "",
+      capacidad: "",
+      comodidades: [],
+      precio: "",
+    },
+    validateProductForm
+  );
 
   return (
-    <div className="  bg-white p-5 mt-2  product-upload-container ">
+    <div className="bg-white p-5 mt-2 product-upload-container">
       <h1>Agregar un nuevo alojamiento</h1>
 
-      <form onSubmit={handleSubmit} className="product-upload-form">
-        <label>
-          Título del alojamiento
-          <input
-            name="titulo"
-            value={form.titulo}
-            onChange={handleChange}
-            placeholder="Ej: Casa de campo con piscina"
-            className="form-input"
-          />
-        </label>
+      <form
+  onSubmit={handleSubmit(async (data) => {
+    try {
+      await submitLodging(data, address, responsible, images);
+      await showSuccessAlert("¡Alojamiento publicado!", "Tu alojamiento fue creado exitosamente.");
 
-        <label>
-          Descripción detallada
-          <textarea
-            name="descripcion"
-            value={form.descripcion}
-            onChange={handleChange}
-            placeholder="Describe tu alojamiento con detalles"
-            className="form-input"
-          ></textarea>
-        </label>
+      resetForm();
+      setAddress(null);
+      setResponsible(null);
+      setImages([]);
+      setFormResetKey((prev) => prev + 1);
 
-        <AddressForm />
+      setResetAddressForm(true);
+      setResetResponsibleForm(true);
+      setTimeout(() => {
+        setResetAddressForm(false);
+        setResetResponsibleForm(false);
+      }, 0);
+    } catch (error) {
+      console.error("Error al guardar alojamiento:", error);
+    }
+  })}
+  className="product-upload-form"
+>
 
-        <label>
-          Tipo de alojamiento
-          <select
-            name="tipo"
-            value={form.tipo}
-            onChange={handleChange}
-            className="form-input"
-          >
-            <option value="">Selecciona el tipo</option>
-            <option value="hotel">Hotel</option>
-            <option value="departamento">Departamento</option>
-            <option value="cabaña">Cabaña</option>
-          </select>
-        </label>
-
-        <label>
-          Capacidad (número de huéspedes)
-          <input
-            name="capacidad"
-            value={form.capacidad}
-            onChange={handleChange}
-            placeholder="Ej: 4"
-            className="form-input"
-          />
-        </label>
-
-        <FeaturesForm
-          selectedFeatures={form.comodidades}
-          setSelectedFeatures={(features) =>
-            setForm({ ...form, comodidades: features })
-          }
+        <LodgingTitleInput
+          value={formData.titulo}
+          onChange={handleChange}
+          error={errors.titulo}
         />
 
-        <label>
-          Precio por noche
-          <input
-            name="precio"
-            value={form.precio}
-            onChange={handleChange}
-            placeholder="Ej: 100 USD"
-            className="form-input"
-          />
-        </label>
-
-        <ImageUpload
-          onSelectFiles={(files) =>
-            console.log("Archivos seleccionados:", files)
-          }
+        <LodgingDescriptionInput
+          value={formData.descripcion}
+          onChange={handleChange}
+          error={errors.descripcion}
         />
+
+        <AddressForm
+          shouldReset={resetAddressForm}
+          onAddressChange={setAddress}
+        />
+        <div className="d-flex">
+          <LodgingTypeSelect
+            value={formData.tipo}
+            onChange={(val) =>
+              handleChange({ target: { name: "tipo", value: val } })
+            }
+            error={errors.tipo}
+          />
+          <CapacityInput
+            value={formData.capacidad}
+            onChange={(val) =>
+              handleChange({ target: { name: "capacidad", value: val } })
+            }
+            error={errors.capacidad}
+          />
+        </div>
+
+        {loading ? (
+          <p>Cargando comodidades...</p>
+        ) : error ? (
+          <p>Error al cargar comodidades</p>
+        ) : (
+          <FeaturesForm
+            availableFeatures={features}
+            selectedFeatures={formData.comodidades}
+            setSelectedFeatures={(selected) =>
+              handleChange({
+                target: { name: "comodidades", value: selected },
+              })
+            }
+          />
+        )}
+
+        <PriceInput
+          value={formData.precio}
+          onChange={(val) =>
+            handleChange({ target: { name: "precio", value: val } })
+          }
+          error={errors.precio}
+        />
+
+        <ResponsibleForm
+          shouldReset={resetResponsibleForm}
+          onChange={setResponsible}
+        />
+
+        <ImageUpload key={formResetKey} onSelectFiles={setImages} />
 
         <div className="form-submit">
-          <button type="submit" className="btn-submit">
-            Guardar y publicar
+          <button type="submit" className="btn-submit" disabled={isSubmitting}>
+            {isSubmitting ? "Guardando..." : "Guardar y publicar"}
           </button>
         </div>
+
+        {submitError && <p className="error mt-2">{submitError}</p>}
       </form>
     </div>
   );

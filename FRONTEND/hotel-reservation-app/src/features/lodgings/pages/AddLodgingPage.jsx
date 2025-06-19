@@ -1,14 +1,14 @@
-import BackArrowButton from '../../../Components/BackArrow/BackArrowButton';
-import AdminNavbar from '../../admin/components/AdminNavbar';
-import ProductUpload from '../components/ProductUpload';
+import BackArrowButton from "../../../Components/BackArrow/BackArrowButton";
+import AdminNavbar from "../../admin/components/AdminNavbar";
+import ProductUpload from "../components/ProductUpload";
 
 export default function AddLodgingPage() {
   return (
     <main className="min-h-screen ">
-            <AdminNavbar />
-      
+
+      <AdminNavbar />
       <ProductUpload />
-      <BackArrowButton/>
+      <BackArrowButton />
     </main>
   );
 }

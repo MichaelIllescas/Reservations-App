@@ -4,42 +4,60 @@ import { Link } from "react-router-dom";
 
 function AlojamientoDisponibleCard({ alojamiento }) {
   return (
-    <div className="card mb-3 alojamiento-disponible-card">
-      <div className="row g-0">
-        {/* Información a la izquierda */}
-        <div className="col-md-6 d-flex flex-column p-3">
-          <h5 className="card-title fw-bold">{alojamiento.nombre}</h5>
+    <div className="card alojamiento-disponible-card h-100">
+      <div className="row g-0 h-100">
+        {/* Info izquierda */}
+        <div className="col-md-6 d-flex flex-column p-3 justify-content-between">
+          <div>
+            <h5 className="card-title fw-bold">{alojamiento.name}</h5>
 
-          <div className="text-warning mb-2">
-            {"★".repeat(alojamiento.valoracion)}{"☆".repeat(5 - alojamiento.valoracion)}
-            <small className="text-muted ms-2">({alojamiento.opiniones} opiniones)</small>
-          </div>
+            <div className="text-warning mb-2">
+              {"★".repeat(4)} {/* placeholder si no tenés puntuación real */}
+              {"☆".repeat(1)}
+              <small className="text-muted ms-2">(0 opiniones)</small>
+            </div>
 
-
-          <ul className="list-unstyled text-muted small">
-            {alojamiento.detalles.map((detalle, i) => (
+            <ul className="list-unstyled text-muted small">
+              {alojamiento.features.map((detalle, i) => (
                 <li key={i}>
-                <FaBed className="me-2" />
-                {detalle}
-              </li>
-            ))}
-          </ul>
+                  <FaBed className="me-2" />
+                  {detalle.replaceAll("_", " ")}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="fw-bold text-primary mb-2">
+              ${alojamiento.dailyPrice.toLocaleString()}
+              <small>/noche</small>
+            </p>
 
-        <p className="fw-bold text-primary mb-2">${alojamiento.precioPorNoche.toLocaleString()}<small>/noche</small></p>
-          <Link to={"/lodgingDetail"} className="btn btn-outline-primary mt-auto link-details">Ver detalles</Link>
+            <Link
+              to="/lodgingDetail"
+              state={{ alojamiento }} // ← sin modificar nada
+              className="btn btn-outline-primary link-details"
+            >
+              Ver detalles
+            </Link>
+          </div>
         </div>
 
-        {/* Imagen a la derecha */}
-        <div className="col-md-6">
+        {/* Imagen derecha */}
+        <div className="col-md-6 h-100">
           <img
-            src={alojamiento.imagen || "https://via.placeholder.com/300x200"}
-            className="img-fluid h-100 object-fit-cover rounded-end"
-            alt={`Imagen de ${alojamiento.nombre}`}
+            src={
+              alojamiento.imageUrls?.[0]
+                ? `http://localhost:8080${alojamiento.imageUrls[0]}`
+                : "https://via.placeholder.com/300x200"
+            }
+            className="img-fluid h-100  rounded-end "
+            alt={`Imagen de ${alojamiento.name}`}
           />
         </div>
       </div>
     </div>
   );
 }
+
 
 export default AlojamientoDisponibleCard;
