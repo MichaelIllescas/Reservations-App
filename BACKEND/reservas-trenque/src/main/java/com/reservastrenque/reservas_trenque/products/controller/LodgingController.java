@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingRequest;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingResponse;
 import com.reservastrenque.reservas_trenque.products.usecase.CreateLodgingUseCase;
+import com.reservastrenque.reservas_trenque.products.usecase.DeleteLodgingUseCase;
 import com.reservastrenque.reservas_trenque.products.usecase.GetAllLodgingsUseCase;
 import com.reservastrenque.reservas_trenque.shared.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,8 @@ public class LodgingController {
 
     private final GetAllLodgingsUseCase getAllLodgingsUseCase;
     private final CreateLodgingUseCase createLodgingUseCase;
+    private final DeleteLodgingUseCase deleteLodgingUseCase;
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -116,10 +119,25 @@ public class LodgingController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = LodgingResponse.class))
             )
     })
-    @GetMapping
+
+
+    @GetMapping("/getLodgings")
     public ResponseEntity<ApiResponse<List<LodgingResponse>>> getAllLodgings() {
         List<LodgingResponse> lodgings = getAllLodgingsUseCase.execute();
         return ResponseEntity.ok(new ApiResponse<>("Lista de alojamientos obtenida exitosamente", lodgings));
     }
 
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Eliminar un alojamiento por ID")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Alojamiento eliminado exitosamente"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Alojamiento no encontrado")
+    })
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteLodging(@PathVariable Long id) {
+        deleteLodgingUseCase.deleteById(id);
+        return ResponseEntity.ok(new ApiResponse<>("Alojamiento eliminado correctamente", null ));
+    }
 }

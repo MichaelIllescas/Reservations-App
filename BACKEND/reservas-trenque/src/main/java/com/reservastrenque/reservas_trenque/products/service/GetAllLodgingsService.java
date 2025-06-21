@@ -8,6 +8,7 @@ import com.reservastrenque.reservas_trenque.products.util.LodgingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +21,13 @@ public class GetAllLodgingsService implements GetAllLodgingsUseCase {
 
     @Override
     public List<LodgingResponse> execute() {
-        return lodgingRepository.findAll()
+        List<LodgingResponse> responseList = lodgingRepository.findAll()
                 .stream()
-                .map(e->LodgingMapper.toResponse(e))
+                .map(LodgingMapper::toResponse)
                 .collect(Collectors.toList());
+
+        Collections.shuffle(responseList);
+
+        return responseList;
     }
 }

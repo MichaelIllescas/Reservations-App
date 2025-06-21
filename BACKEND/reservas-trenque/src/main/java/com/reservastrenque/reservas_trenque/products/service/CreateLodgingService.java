@@ -1,5 +1,6 @@
 package com.reservastrenque.reservas_trenque.products.service;
 
+import com.reservastrenque.reservas_trenque.config.exception.EmailAlreadyUsedException;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingRequest;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingResponse;
 import com.reservastrenque.reservas_trenque.products.location.model.City;
@@ -8,6 +9,7 @@ import com.reservastrenque.reservas_trenque.products.model.*;
 import com.reservastrenque.reservas_trenque.products.persistence.*;
 import com.reservastrenque.reservas_trenque.products.usecase.CreateLodgingUseCase;
 import com.reservastrenque.reservas_trenque.products.util.LodgingMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CreateLodgingService implements CreateLodgingUseCase {
 
     private final LodgingRepository lodgingRepository;
@@ -49,8 +52,12 @@ public class CreateLodgingService implements CreateLodgingUseCase {
                 .city(responsibleCity)
                 .build();
 
+        //validar existencia de ese responsable en la bd
+        if (responsibleRepository.findByEmail(request.getResponsible().getEmail()).isPresent()) {
+            throw new EmailAlreadyUsedException(request.getResponsible().getEmail());
+        }
         // Crear y guardar responsable
-        Responsible responsible = Responsible.builder()
+            Responsible responsible = Responsible.builder()
                 .fullName(request.getResponsible().getFullName())
                 .email(request.getResponsible().getEmail())
                 .phone(request.getResponsible().getPhone())
@@ -70,6 +77,14 @@ public class CreateLodgingService implements CreateLodgingUseCase {
                 .number(request.getAddress().getNumber())
                 .city(lodgingCity)
                 .build();
+
+        //Validar que no exista un alojamiento con el mismo nombre
+
+        lodgingRepository.findByName(request.getName().trim())
+                .ifPresent(existing -> {
+                    throw new IllegalArgumentException("Ya existe un alojamiento con ese nombre en el sistema");
+                });
+
 
         // Crear entidad alojamiento sin imágenes aún
         Lodging lodging = Lodging.builder()

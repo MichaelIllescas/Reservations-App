@@ -1,0 +1,13 @@
+.btn-edit:hover {
+  cursor: pointer;
+  color: #1e126f !important;
+}
+.btn-edit,
+.btn-delete {
+  transition: all 0.5s;
+}
+
+.btn-delete:hover {
+  cursor: pointer;
+  color: rgb(116, 15, 15) !important;
+}

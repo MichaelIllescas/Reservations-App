@@ -5,20 +5,35 @@ import LoginPage from "../features/auth/pages/LoginPage";
 import LodgingDetail from "../features/lodgings/pages/LodgingDetail";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import AddLodgingPage from "../features/lodgings/pages/AddLodgingPage";
-import { ProtectedRoute } from "../../src/router/ProtectedRoute";
 import LodgingPageList from "../features/lodgings/pages/LodgingPageList";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { DeviceProvider } from "../Context/DeviceContext";
+import ProtectedAdminWrapper from "../Components/Modals/ProtectedAdminWrapper";
+
 function AppRouter() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/lodgingDetail" element={<LodgingDetail />} />
-      <Route path="/admindashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute> } />
-      <Route path="/addlodging" element={<ProtectedRoute> <AddLodgingPage/></ProtectedRoute>} />
-            <Route path="/lodgingList" element={<ProtectedRoute> <LodgingPageList/></ProtectedRoute>} />
+    <DeviceProvider>
+      <Routes>
+        {/* Públicas */}
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/lodgingDetail" element={<LodgingDetail />} />
 
-    </Routes>
+        {/* Admin protegida */}
+        <Route
+          element={
+            <ProtectedAdminWrapper>
+              <ProtectedRoute />
+            </ProtectedAdminWrapper>
+          }
+        >
+          <Route path="/admindashboard" element={<AdminDashboard />} />
+          <Route path="/addlodging" element={<AddLodgingPage />} />
+          <Route path="/lodgingList" element={<LodgingPageList />} />
+        </Route>
+      </Routes>
+    </DeviceProvider>
   );
 }
 

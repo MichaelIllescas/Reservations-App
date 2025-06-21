@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.*;
+
 @Entity
 @Table(name = "lodgings")
 @Getter
@@ -54,11 +55,21 @@ public class Lodging {
     @Column(name = "image_url")
     private List<String> imageUrls = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+
     @JoinColumn(name = "address_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "responsible_id", nullable = false)
     private Responsible responsible;
+
+    /**
+     * Limpia las colecciones antes de eliminar el alojamiento para evitar conflictos de integridad
+     */
+    @PreRemove
+    private void preRemove() {
+        features.clear();
+        imageUrls.clear();
+    }
 }

@@ -8,7 +8,6 @@ export default function AdminDashboard() {
         <h1>Bienvenido al Panel de Administración</h1>
         <p>Selecciona una sección del menú para comenzar.</p>
 
-
         <h1>IN PROGRESS</h1>
       </div>
     </div>

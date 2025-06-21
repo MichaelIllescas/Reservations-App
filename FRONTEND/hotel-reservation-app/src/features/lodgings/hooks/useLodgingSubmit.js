@@ -1,7 +1,9 @@
 import { useState } from "react";
 import apiClient from "../../../services/apiClient";
 import { FEATURE_MAP } from "../../../Components/FeaturesCheks/FeaturesForm";
-import { showErrorAlert, showSuccessAlert } from "../../../Components/Alerts/alerts";
+import {
+  showErrorAlert
+} from "../../../Components/Alerts/alerts";
 
 export default function useLodgingSubmit() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,8 +44,7 @@ export default function useLodgingSubmit() {
 
       return response.data;
     } catch (err) {
-        showErrorAlert("Error", "No se pudo registrar "+ err.response.data.messaje)
-      console.error("Error al enviar el alojamiento:", err);
+      showErrorAlert("Error", err.response.data.message);
       setSubmitError("No se pudo guardar el alojamiento.");
       throw err;
     } finally {

@@ -1,26 +1,32 @@
-import { useEffect, useState } from "react";
-import apiClient from "../../../services/apiClient"; // ajustá si cambia la ruta
+import { useEffect, useState, useCallback } from "react";
+import apiClient from "../../../services/apiClient";
 
 export default function useLodgingList() {
   const [lodgings, setLodgings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchLodgings = async () => {
-      try {
-        const response = await apiClient.get("/lodgings");
-        setLodgings(response.data.data); // ← accedemos a 'data' como array de alojamientos
-      } catch (err) {
-        console.error("Error al obtener alojamientos:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLodgings();
+  const fetchLodgings = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.get("/lodgings/getLodgings");
+      setLodgings(response.data.data);
+    } catch (err) {
+      console.error("Error al obtener alojamientos:", err);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { lodgings, loading, error };
+  useEffect(() => {
+    fetchLodgings();
+  }, [fetchLodgings]);
+
+  return {
+    lodgings,
+    loading,
+    error,
+    reloadLodgings: fetchLodgings, // ← ¡importante!
+  };
 }

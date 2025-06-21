@@ -28,6 +28,8 @@ export const checkSession = async ({ setUser, setSessionExpired, navigate, locat
         setSessionExpired(false);
         navigate("/", { replace: true });
       }, 3000);
+    }else{
+      setUser(null)
     }
   } catch {
     setUser(null);

@@ -1,0 +1,13 @@
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important; /* Fondo oscuro con opacidad */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1050;
+}
+.modal-content {
+  background-color: white !important; /* o #fff */
+  z-index: 100;
+}

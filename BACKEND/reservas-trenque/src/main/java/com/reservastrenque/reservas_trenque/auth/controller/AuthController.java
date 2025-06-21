@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -86,13 +87,17 @@ public class AuthController {
     @ApiResponse(responseCode = "200", description = "Sesión cerrada correctamente")
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("authToken", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        return ResponseEntity.ok(Map.of("message", "Logout exitoso"));
+        ResponseCookie cookie = ResponseCookie.from("authToken", "")
+                .path("/")
+                .httpOnly(true)
+                .secure(true)     // usar solo en producción con HTTPS
+                .maxAge(0)
+                .sameSite("Lax")  // mismo valor que usaste al setearla
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of("message", "Logout exitoso"));
     }
 
     @Operation(summary = "Obtener información de la sesión actual")
