@@ -5,7 +5,7 @@ import { useLogin } from "../hooks/useLogin";
 import logo from "../../../assets/img/logo.png";
 import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import '../styles/loginForm.css';
+import "../styles/loginForm.css";
 
 const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
@@ -48,7 +48,9 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         {/* Email */}
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
           <input
             type="email"
             id="email"
@@ -58,12 +60,16 @@ const LoginForm = () => {
             onChange={handleChange}
             placeholder="Ingrese su email"
           />
-          {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+          {errors.email && (
+            <div className="invalid-feedback">{errors.email}</div>
+          )}
         </div>
 
         {/* Contraseña */}
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">Contraseña</label>
+          <label htmlFor="password" className="form-label">
+            Contraseña
+          </label>
           <div className="input-group">
             <input
               type={showPassword ? "text" : "password"}
@@ -73,17 +79,24 @@ const LoginForm = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Ingrese su contraseña"
+              style={{ borderRight: "none" }} // Quita el borde derecho del input
             />
-            <button
-              type="button"
-              className="btn icon-password "
-              onClick={() => setShowPassword(prev => !prev)}
-              tabIndex={-1}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
+            <span className="input-group-text bg-white border-start-0">
+              <button
+                type="button"
+                className="btn p-0 border-0 shadow-none"
+                onClick={() => setShowPassword((prev) => !prev)}
+                tabIndex={-1}
+                style={{ background: "transparent" }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </span>
           </div>
-          {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+
+          {errors.password && (
+            <div className="invalid-feedback">{errors.password}</div>
+          )}
         </div>
 
         {/* Recuérdame */}

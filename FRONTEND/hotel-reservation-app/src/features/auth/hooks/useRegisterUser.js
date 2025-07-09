@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { registerUser } from "../services/registerUser";
+import { showErrorAlert, showSuccessAlert } from "../../../Components/Alerts/alerts";
 
 export const useRegisterUser = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,11 +14,10 @@ export const useRegisterUser = () => {
       const payload = { firstName, lastName, email, password, phone };
 
       await registerUser(payload);
-      alert("Registro exitoso");
+      showSuccessAlert("Registro exitoso");
        resetForm();
     } catch (error) {
-      alert("Error al registrar usuario");
-      console.error(error);
+      showErrorAlert(error.response?.data?.error);
     } finally {
       setIsLoading(false);
     }

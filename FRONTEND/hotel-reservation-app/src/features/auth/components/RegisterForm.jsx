@@ -26,12 +26,13 @@ function RegisterForm({ onSubmit }) {
   );
 
   return (
+    
     <form
       onSubmit={handleSubmit((formData) => onSubmit(formData, resetForm))}
       noValidate
-      className="p-4 border rounded register-form"
+      className="p-4 border rounded register-form card shadow"
     >
-      <h3 className="mb-3">Registro de Usuario</h3>
+      <h3 className="mb-3 text-center">Registro de Usuario</h3>
 
       <div className="mb-3">
         <label>Nombre</label>
