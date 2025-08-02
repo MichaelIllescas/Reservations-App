@@ -34,6 +34,7 @@ public class UserController {
     private final DeleteUserUseCase deleteUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final ToggleStatusUserCase toggleStatusUserUseCase;
+    private final ToggleAdminUserCase toggleAdminUserUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
 
     @Operation(summary = "Obtener todos los usuarios")
@@ -118,6 +119,20 @@ public class UserController {
     public ResponseEntity<Map<String, String>> toggleStatus(@PathVariable Long id) {
         toggleStatusUserUseCase.execute(id);
         return ResponseEntity.ok(Map.of("message", "El estado ha sido cambiado correctamente"));
+    }
+
+    @Operation(summary = "Asignar o quitar permisos de administrador a un usuario")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Rol actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/toggle-role/{id}")
+    public ResponseEntity<Map<String, String>> toggleRole(@PathVariable Long id) {
+        toggleAdminUserUseCase.execute(id);
+        return ResponseEntity.ok(Map.of("message", "El rol ha sido actualizado correctamente"));
     }
 
 

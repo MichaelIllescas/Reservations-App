@@ -25,7 +25,20 @@ const useUsers = () => {
     fetchUsers();
   }, []);
 
-  return { users, loading, error, fetchUsers }; // Devolvemos fetchUsers para que pueda usarse en UsersPage
+  const toggleAdmin = async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await apiClient.put(`/users/toggle-role/${id}`);
+      await fetchUsers();
+    } catch (err) {
+      setError(err.response?.data?.message || "Error al actualizar el rol");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { users, loading, error, fetchUsers, toggleAdmin }; // Devolvemos funciones para que pueda usarse en UsersPage
 };
 
 export default useUsers;
