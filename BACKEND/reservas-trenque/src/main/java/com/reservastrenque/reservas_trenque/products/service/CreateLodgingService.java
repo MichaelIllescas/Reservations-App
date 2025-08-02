@@ -29,6 +29,7 @@ public class CreateLodgingService implements CreateLodgingUseCase {
     private final LodgingTypeRepository lodgingTypeRepository;
     private final ResponsibleRepository responsibleRepository;
     private final CityRepository cityRepository;
+    private final FeatureRepository featureRepository;
 
     @Value("${upload.base-path}")
     private String baseUploadPath;
@@ -86,6 +87,9 @@ public class CreateLodgingService implements CreateLodgingUseCase {
                 });
 
 
+        // Obtener características seleccionadas
+        Set<Feature> features = new HashSet<>(featureRepository.findAllById(request.getFeatureIds()));
+
         // Crear entidad alojamiento sin imágenes aún
         Lodging lodging = Lodging.builder()
                 .name(request.getName())
@@ -93,7 +97,7 @@ public class CreateLodgingService implements CreateLodgingUseCase {
                 .dailyPrice(request.getDailyPrice())
                 .capacity(request.getCapacity())
                 .type(lodgingType)
-                .features(request.getFeatures())
+                .features(features)
                 .address(lodgingAddress)
                 .responsible(responsible)
                 .build();

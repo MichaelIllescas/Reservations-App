@@ -1,6 +1,5 @@
 package com.reservastrenque.reservas_trenque.products.dto;
 
-import com.reservastrenque.reservas_trenque.products.model.LodgingFeature;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -42,9 +41,9 @@ public class LodgingRequest {
     @Schema(description = "Información del responsable del alojamiento")
     private ResponsibleRequest responsible;
 
-    @Schema(description = "Conjunto de características del alojamiento")
+    @Schema(description = "IDs de las características del alojamiento")
     @NotNull(message = "Las características son obligatorias.")
-    private Set<LodgingFeature> features;
+    private Set<Long> featureIds;
 
     @Schema(description = "Dirección del alojamiento")
     @NotNull(message = "La dirección es obligatoria.")

@@ -1,6 +1,6 @@
 package com.reservastrenque.reservas_trenque.products.model;
 
-import com.reservastrenque.reservas_trenque.products.model.LodgingFeature;
+import com.reservastrenque.reservas_trenque.products.model.Feature;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
@@ -38,14 +38,13 @@ public class Lodging {
     @JoinColumn(name = "lodging_type_id", nullable = false)
     private LodgingType type;
 
-    @ElementCollection(targetClass = LodgingFeature.class)
-    @CollectionTable(
+    @ManyToMany
+    @JoinTable(
             name = "lodging_features",
-            joinColumns = @JoinColumn(name = "lodging_id")
+            joinColumns = @JoinColumn(name = "lodging_id"),
+            inverseJoinColumns = @JoinColumn(name = "feature_id")
     )
-    @Enumerated(EnumType.STRING)
-    @Column(name = "feature")
-    private Set<LodgingFeature> features = new HashSet<>();
+    private Set<Feature> features = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(

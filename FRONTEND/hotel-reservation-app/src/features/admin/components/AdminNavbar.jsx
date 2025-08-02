@@ -31,6 +31,7 @@ export default function AdminNavbar() {
             <ul className="dropdown-menu" aria-labelledby="productosDropdown">
               <li><NavLink className="dropdown-item" to="/lodgingList">Listar Productos</NavLink></li>
               <li><NavLink className="dropdown-item" to="/addlodging">Agregar Producto</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/admin/features">Administrar características</NavLink></li>
             </ul>
           </li>
 
