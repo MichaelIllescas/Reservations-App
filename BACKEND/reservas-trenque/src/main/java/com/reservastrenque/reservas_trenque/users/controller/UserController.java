@@ -40,7 +40,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida correctamente")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(getAllUsersUseCase.execute());
     }
 

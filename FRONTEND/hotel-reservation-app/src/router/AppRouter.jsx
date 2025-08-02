@@ -9,6 +9,7 @@ import LodgingPageList from "../features/lodgings/pages/LodgingPageList";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { DeviceProvider } from "../Context/DeviceContext";
 import ProtectedAdminWrapper from "../Components/Modals/ProtectedAdminWrapper";
+import UsersList from "../features/users/pages/UsersList";
 
 function AppRouter() {
   return (
@@ -31,6 +32,7 @@ function AppRouter() {
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/addlodging" element={<AddLodgingPage />} />
           <Route path="/lodgingList" element={<LodgingPageList />} />
+          <Route path="/usersList" element={<UsersList />} />
         </Route>
       </Routes>
     </DeviceProvider>
