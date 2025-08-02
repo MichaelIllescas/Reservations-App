@@ -7,5 +7,9 @@ export default defineConfig({
   define: {
     global: 'window', // <- Esto soluciona el error con `global`
   },
-
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/setupTests.js'
+  }
 })
