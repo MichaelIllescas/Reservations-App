@@ -1,9 +1,6 @@
 import { useState } from "react";
 import apiClient from "../../../services/apiClient";
-import { FEATURE_MAP } from "../../../Components/FeaturesCheks/FeaturesForm";
-import {
-  showErrorAlert
-} from "../../../Components/Alerts/alerts";
+import { showErrorAlert } from "../../../Components/Alerts/alerts";
 
 export default function useLodgingSubmit() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,7 +17,7 @@ export default function useLodgingSubmit() {
         dailyPrice: parseFloat(formData.precio),
         capacity: parseInt(formData.capacidad),
         lodgingTypeId: parseInt(formData.tipo),
-        features: formData.comodidades.map((f) => FEATURE_MAP[f]),
+        featureIds: formData.comodidades,
         address,
         responsible,
       };

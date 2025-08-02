@@ -66,7 +66,7 @@ public class LodgingController {
                                               "dailyPrice": 35000,
                                               "capacity": 4,
                                               "lodgingTypeId": 1,
-                                              "features": ["WIFI", "TV", "AIR_CONDITIONING"],
+                                              "featureIds": [1, 2, 3],
                                               "address": {
                                                 "street": "Av. San Martín",
                                                 "number": "123",

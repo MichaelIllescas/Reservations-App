@@ -66,10 +66,10 @@ function LodgingDetail() {
         <div className="mb-3 text-dark features">
           <strong>Detalles:</strong>
           <ul>
-            {alojamiento.features?.map((d, i) => (
-              <li key={i}>
+            {alojamiento.features?.map((f) => (
+              <li key={f.id}>
                 <FaBed className="me-2" />
-                {d.replaceAll("_", " ")}
+                {f.name}
               </li>
             ))}
           </ul>

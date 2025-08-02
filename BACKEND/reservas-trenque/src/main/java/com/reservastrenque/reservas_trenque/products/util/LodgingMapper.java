@@ -1,10 +1,10 @@
 package com.reservastrenque.reservas_trenque.products.util;
 
 import com.reservastrenque.reservas_trenque.products.dto.AddressResponse;
-import com.reservastrenque.reservas_trenque.products.dto.LodgingRequest;
+import com.reservastrenque.reservas_trenque.products.dto.FeatureResponse;
 import com.reservastrenque.reservas_trenque.products.dto.LodgingResponse;
-import com.reservastrenque.reservas_trenque.products.location.model.City;
-import com.reservastrenque.reservas_trenque.products.model.*;
+import com.reservastrenque.reservas_trenque.products.model.Feature;
+import com.reservastrenque.reservas_trenque.products.model.Lodging;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ public class LodgingMapper {
                 .capacity(lodging.getCapacity())
                 .lodgingType(lodging.getType().getName())
                 .features(lodging.getFeatures().stream()
-                        .map(Enum::name)
+                        .map(this::mapFeature)
                         .collect(Collectors.toSet()))
                 .imageUrls(lodging.getImageUrls())
                 .address(addressResponse)
@@ -38,28 +38,11 @@ public class LodgingMapper {
                 .build();
     }
 
-
-    public static Lodging toEntity(
-            LodgingRequest request,
-            LodgingType type,
-            Responsible responsible,
-            City city
-    ) {
-        Address address = Address.builder()
-                .street(request.getAddress().getStreet())
-                .number(request.getAddress().getNumber())
-                .city(city)
-                .build();
-
-        return Lodging.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .dailyPrice(request.getDailyPrice())
-                .capacity(request.getCapacity())
-                .type(type)
-                .features(request.getFeatures())
-                .responsible(responsible)
-                .address(address)
+    private FeatureResponse mapFeature(Feature feature) {
+        return FeatureResponse.builder()
+                .id(feature.getId())
+                .name(feature.getName())
+                .icon(feature.getIcon())
                 .build();
     }
 }
