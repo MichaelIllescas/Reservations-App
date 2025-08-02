@@ -1,20 +1,14 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import useUsers from "../hooks/useUsers";
 import DataTable from '../../../Components/Tables/DataTable';
 
 const UsersList = () => {
-  const { users, loading, error, fetchUsers } = useUsers();
-
-  const [selectedUser, setSelectedUser] = useState(null);
-  
+  const { users, fetchUsers, toggleAdmin } = useUsers();
 
   useEffect(() => {
-    fetchUsers(); 
-  }, []);
+    fetchUsers();
+  }, [fetchUsers]);
 
-
-
- 
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "id" },
@@ -29,7 +23,6 @@ const UsersList = () => {
           <div className="d-flex ">
             <button
               className="btn btn-primary btn-sm "
-              // onClick={() => }
               style={{ width: "40px", margin: "0 auto", borderRadius: "150px" }}
             >
               ✏️
@@ -37,19 +30,22 @@ const UsersList = () => {
             <button
               className="btn btn-warning btn-sm"
               style={{ width: "40px", margin: "0 auto", borderRadius: "150px" }}
-              // onClick={() => ()}
             >
-              {row.original.state === "ACTIVO" ? "✅" : "🚫"}
+              {row.original.enabled ? "✅" : "🚫"}
+            </button>
+            <button
+              className="btn btn-secondary btn-sm"
+              style={{ width: "40px", margin: "0 auto", borderRadius: "150px" }}
+              onClick={() => toggleAdmin(row.original.id)}
+            >
+              {row.original.role === "ADMIN" ? "👑" : "➕"}
             </button>
           </div>
         ),
       },
     ],
-    [users]
+    [users, toggleAdmin]
   );
-
-  // if (loading) return <LoadingScreen />;
-  // if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="mt-3 pt-1">
@@ -60,12 +56,6 @@ const UsersList = () => {
         <h2>Usuarios Registrados</h2>
         <DataTable columns={columns} data={users} />
       </div>
-
-   
-
-   
-
-  
     </div>
   );
 };
