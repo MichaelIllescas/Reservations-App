@@ -40,7 +40,7 @@ export default function AdminNavbar() {
               Usuarios
             </a>
             <ul className="dropdown-menu" aria-labelledby="usuariosDropdown">
-              <li><NavLink className="dropdown-item" to="/admin/users">Listar Usuarios</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/usersList">Listar Usuarios</NavLink></li>
               <li><NavLink className="dropdown-item" to="/admin/users/new">Registrar Usuario</NavLink></li>
             </ul>
           </li>

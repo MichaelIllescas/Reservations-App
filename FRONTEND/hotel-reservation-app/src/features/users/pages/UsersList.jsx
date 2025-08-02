@@ -7,7 +7,7 @@ const UsersList = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+  }, []);
 
   const columns = useMemo(
     () => [
