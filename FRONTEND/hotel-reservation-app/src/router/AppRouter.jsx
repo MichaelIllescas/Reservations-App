@@ -8,6 +8,7 @@ import AddLodgingPage from "../features/lodgings/pages/AddLodgingPage";
 import LodgingPageList from "../features/lodgings/pages/LodgingPageList";
 import EditLodgingPage from "../features/lodgings/pages/EditLodgingPage";
 import FeatureAdminPage from "../features/features/pages/FeatureAdminPage";
+import AddCategoryPage from "../features/categories/pages/AddCategoryPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { DeviceProvider } from "../Context/DeviceContext";
 import ProtectedAdminWrapper from "../Components/Modals/ProtectedAdminWrapper";
@@ -39,6 +40,7 @@ function AppRouter() {
           <Route path="/usersList" element={<UsersList />} />
           <Route path="/admin/users/new" element={<CreateUserPage />} />
           <Route path="/admin/features" element={<FeatureAdminPage />} />
+          <Route path="/admin/categories/new" element={<AddCategoryPage />} />
         </Route>
       </Routes>
     </DeviceProvider>
