@@ -107,6 +107,7 @@ export default function ResponsibleForm({ value, onChange, shouldReset }) {
         <AddressForm
           shouldReset={shouldReset}
           onAddressChange={setAddress}
+          value={value?.address}
         />
       </div>
     </div>

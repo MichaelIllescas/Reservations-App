@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import useLocationOptions from "./hooks/useLocationOptions";
 import AddLocationModal from "./AddLocationModal";
 
-export default function AddressForm({ onAddressChange,shouldReset  }) {
+export default function AddressForm({ onAddressChange, shouldReset, value }) {
   const {
     countries,
     provinces,
@@ -21,6 +21,16 @@ export default function AddressForm({ onAddressChange,shouldReset  }) {
   const [selectedCityId, setSelectedCityId] = useState("");
   const [modalType, setModalType] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (value) {
+      setStreet(value.street || "");
+      setNumber(value.number || "");
+      if (value.countryId) setSelectedCountryId(String(value.countryId));
+      if (value.provinceId) setSelectedProvinceId(String(value.provinceId));
+      if (value.cityId) setSelectedCityId(String(value.cityId));
+    }
+  }, [value, setSelectedCountryId, setSelectedProvinceId]);
 
   useEffect(() => {
     if (onAddressChange && street && number && selectedCityId) {
