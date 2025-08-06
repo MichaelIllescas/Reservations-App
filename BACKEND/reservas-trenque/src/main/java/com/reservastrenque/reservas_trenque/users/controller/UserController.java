@@ -1,6 +1,7 @@
 package com.reservastrenque.reservas_trenque.users.controller;
 
 import com.reservastrenque.reservas_trenque.config.exception.ErrorResponseDTO;
+import com.reservastrenque.reservas_trenque.auth.dto.EmailDTO;
 import com.reservastrenque.reservas_trenque.users.dto.ChangePasswordRequest;
 import com.reservastrenque.reservas_trenque.users.dto.CreateUserRequest;
 import com.reservastrenque.reservas_trenque.users.dto.UserDTO;
@@ -36,6 +37,7 @@ public class UserController {
     private final ToggleStatusUserCase toggleStatusUserUseCase;
     private final ToggleAdminUserCase toggleAdminUserUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
+    private final SendConfirmationEmailUseCase sendConfirmationEmailUseCase;
 
     @Operation(summary = "Obtener todos los usuarios")
     @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida correctamente")
@@ -72,6 +74,14 @@ public class UserController {
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody CreateUserRequest request) {
         UserDTO createdUser = registerUserUseCase.execute(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @Operation(summary = "Reenviar correo de confirmación de registro")
+    @ApiResponse(responseCode = "200", description = "Correo reenviado correctamente")
+    @PostMapping("/resend-confirmation")
+    public ResponseEntity<Map<String, String>> resendConfirmation(@RequestBody EmailDTO request) {
+        sendConfirmationEmailUseCase.execute(request.getEmail());
+        return ResponseEntity.ok(Map.of("message", "Correo de confirmación reenviado"));
     }
 
     @Operation(summary = "Eliminar un usuario")

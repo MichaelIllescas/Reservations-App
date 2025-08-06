@@ -6,6 +6,7 @@ import com.reservastrenque.reservas_trenque.users.dto.CreateUserRequest;
 import com.reservastrenque.reservas_trenque.users.dto.UserDTO;
 import com.reservastrenque.reservas_trenque.users.repository.UserRepository;
 import com.reservastrenque.reservas_trenque.users.usecase.RegisterUserUseCase;
+import com.reservastrenque.reservas_trenque.users.usecase.SendConfirmationEmailUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final SendConfirmationEmailUseCase sendConfirmationEmailUseCase;
 
     @Override
     public UserDTO execute(CreateUserRequest request) {
@@ -36,6 +38,9 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         userRepository.save(newUser);
+
+        // Enviar correo de confirmación de registro
+        sendConfirmationEmailUseCase.execute(newUser.getEmail());
 
         return userMapper.toDTO(newUser);
     }
