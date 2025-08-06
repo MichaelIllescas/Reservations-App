@@ -6,18 +6,20 @@ import "../styles/ProductImageGallery.css";
 const BASE_URL = "http://localhost:8080"; // o usá process.env.REACT_APP_BACKEND_URL
 
 function ProductImageGallery({ images = [] }) {
+  // Eliminar imágenes duplicadas
+  const imagesToShow = Array.from(new Set(images));
   const [showFullView, setShowFullView] = useState(false);
   const [current, setCurrent] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const [transformOrigin, setTransformOrigin] = useState("50% 50%");
 
   // Si no hay imágenes, mensaje de fallback
-  if (!Array.isArray(images) || images.length === 0) {
+  if (!Array.isArray(imagesToShow) || imagesToShow.length === 0) {
     return <p className="text-muted">Sin imágenes disponibles.</p>;
   }
 
   // Armar los objetos con URL completa
-  const formattedImages = images.map((img) => {
+  const formattedImages = imagesToShow.map((img) => {
     const url = img.startsWith("http") ? img : `${BASE_URL}${img}`;
     return {
       original: url,
@@ -27,12 +29,12 @@ function ProductImageGallery({ images = [] }) {
 
   const handleNext = () => {
     setZoomed(false);
-    setCurrent((prev) => (prev + 1) % images.length);
+    setCurrent((prev) => (prev + 1) % imagesToShow.length);
   };
 
   const handlePrev = () => {
     setZoomed(false);
-    setCurrent((prev) => (prev - 1 + images.length) % images.length);
+    setCurrent((prev) => (prev - 1 + imagesToShow.length) % imagesToShow.length);
   };
 
   const handleZoom = (e) => {
@@ -54,7 +56,7 @@ function ProductImageGallery({ images = [] }) {
           thumbnailPosition="right"
           onClick={() => setZoomed(false)}
         />
-        {images.length > 1 && (
+        {imagesToShow.length > 1 && (
           <button className="view-more-overlay" onClick={() => setShowFullView(true)}>
             Ver más
           </button>
@@ -81,9 +83,9 @@ function ProductImageGallery({ images = [] }) {
             >
               <img
                 src={
-                  images[current].startsWith("http")
-                    ? images[current]
-                    : `${BASE_URL}${images[current]}`
+                  imagesToShow[current].startsWith("http")
+                    ? imagesToShow[current]
+                    : `${BASE_URL}${imagesToShow[current]}`
                 }
                 alt={`img-${current}`}
               />

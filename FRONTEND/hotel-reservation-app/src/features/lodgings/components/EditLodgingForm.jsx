@@ -15,6 +15,7 @@ import LodgingDescriptionInput from "./LodgingDescriptionInput";
 import useLodgingUpdate from "../hooks/useLodgingUpdate";
 import apiClient from "../../../services/apiClient";
 import { showSuccessAlert } from "../../../Components/Alerts/alerts";
+import { useNavigate } from "react-router-dom";
 
 export default function EditLodgingForm({ lodgingId }) {
   const { features, loading, error } = useFeatures();
@@ -22,6 +23,7 @@ export default function EditLodgingForm({ lodgingId }) {
   const [address, setAddress] = useState(null);
   const [responsible, setResponsible] = useState(null);
   const [images, setImages] = useState([]);
+  const navigate = useNavigate();
 
   const { formData, errors, handleChange, handleSubmit, setFormData } = useForm(
     {
@@ -76,6 +78,7 @@ export default function EditLodgingForm({ lodgingId }) {
               "¡Alojamiento actualizado!",
               "Los datos del alojamiento se guardaron correctamente."
             );
+            navigate("/lodgingList");
           } catch (error) {
             console.error("Error al actualizar alojamiento:", error);
           }
@@ -151,4 +154,3 @@ export default function EditLodgingForm({ lodgingId }) {
     </div>
   );
 }
-
