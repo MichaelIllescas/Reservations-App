@@ -1,4 +1,6 @@
 import { useMemo, useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { useAuth } from "../../../Context/AuthContext";
 import useUsers from "../hooks/useUsers";
 import DataTable from "../../../Components/Tables/DataTable";
 import UserEditModal from "../components/UserEditModal";
@@ -6,6 +8,7 @@ import AdminNavbar from "../../admin/components/AdminNavbar";
 
 const UsersList = () => {
   const { users, fetchUsers, toggleAdmin } = useUsers();
+  const { user: currentUser } = useAuth();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -22,6 +25,35 @@ const UsersList = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const handleToggleRole = (user) => {
+    if (currentUser?.id === user.id) {
+      Swal.fire({
+        icon: "error",
+        title: "Acción no permitida",
+        text: "No puedes cambiar tu propio rol.",
+      });
+      return;
+    }
+
+    const actionText =
+      user.role === "ADMIN"
+        ? "quitar privilegios de administrador"
+        : "asignar rol de administrador";
+
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: `¿Deseas ${actionText} a ${user.firstName}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, continuar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        toggleAdmin(user.id);
+      }
+    });
+  };
 
   const columns = useMemo(
     () => [
@@ -51,7 +83,8 @@ const UsersList = () => {
             <button
               className="btn btn-secondary btn-sm"
               style={{ width: "40px", margin: "0 auto", borderRadius: "150px" }}
-              onClick={() => toggleAdmin(row.original.id)}
+              onClick={() => handleToggleRole(row.original)}
+              disabled={currentUser?.id === row.original.id}
             >
               {row.original.role === "ADMIN" ? "👑" : "➕"}
             </button>
@@ -59,7 +92,7 @@ const UsersList = () => {
         ),
       },
     ],
-    [users, toggleAdmin]
+    [users, toggleAdmin, currentUser]
   );
 
   return (
