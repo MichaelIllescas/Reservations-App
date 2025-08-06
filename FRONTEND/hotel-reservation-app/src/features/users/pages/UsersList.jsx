@@ -1,7 +1,8 @@
 import { useMemo, useEffect, useState } from "react";
 import useUsers from "../hooks/useUsers";
-import DataTable from '../../../Components/Tables/DataTable';
+import DataTable from "../../../Components/Tables/DataTable";
 import UserEditModal from "../components/UserEditModal";
+import AdminNavbar from "../../admin/components/AdminNavbar";
 
 const UsersList = () => {
   const { users, fetchUsers, toggleAdmin } = useUsers();
@@ -62,21 +63,24 @@ const UsersList = () => {
   );
 
   return (
-    <div className="mt-3 pt-1">
-      <div
-        className="container card mt-5 pt-5 table-responsive table"
-        data-aos="fade-left"
-      >
-        <h2>Usuarios Registrados</h2>
-        <DataTable columns={columns} data={users} />
+    <main className="min-h-screen">
+      <AdminNavbar />
+      <div className="mt-3 pt-1">
+        <div
+          className="container card mt-5 pt-5 table-responsive table"
+          data-aos="fade-left"
+        >
+          <h2>Usuarios Registrados</h2>
+          <DataTable columns={columns} data={users} />
+        </div>
+        <UserEditModal
+          show={showModal}
+          onClose={handleCloseModal}
+          user={selectedUser}
+          onUpdated={fetchUsers}
+        />
       </div>
-      <UserEditModal
-        show={showModal}
-        onClose={handleCloseModal}
-        user={selectedUser}
-        onUpdated={fetchUsers}
-      />
-    </div>
+    </main>
   );
 };
 
