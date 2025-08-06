@@ -1,12 +1,17 @@
 import useLodgingList from "../hooks/useLodgingList";
 import ConfirmationModal from "../../../Components/Modals/ConfirmationModal";
-import { useState } from "react";
 import "../styles/lodgingsList.css";
 import useDeleteLodging from "../hooks/useDeleteLodging";
+
 const LodgingList = () => {
   const { lodgings, loading, error, reloadLodgings } = useLodgingList();
-  const { modalOpen, openConfirm, closeConfirm, confirmDelete } =
-    useDeleteLodging(reloadLodgings);
+  const {
+    modalOpen,
+    openConfirm,
+    closeConfirm,
+    confirmDelete,
+    confirmMessage,
+  } = useDeleteLodging(reloadLodgings);
 
   if (loading) return <p>Cargando alojamientos...</p>;
   if (error) return <p>Error al cargar alojamientos.</p>;
@@ -41,7 +46,7 @@ const LodgingList = () => {
                 </span>{" "}
                 |{" "}
                 <span
-                  onClick={() => openConfirm(a.id)}
+                  onClick={() => openConfirm(a.id, a.name)}
                   className="text-danger font-weight-bold btn-delete"
                 >
                   Eliminar
@@ -55,7 +60,7 @@ const LodgingList = () => {
       <ConfirmationModal
         isOpen={modalOpen}
         title="Confirmar Eliminación"
-        message="¿Estás seguro de que deseas eliminar este elemento?"
+        message={confirmMessage}
         onConfirm={confirmDelete}
         onClose={closeConfirm}
       />
