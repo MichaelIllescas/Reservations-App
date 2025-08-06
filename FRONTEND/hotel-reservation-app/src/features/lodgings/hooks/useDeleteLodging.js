@@ -9,14 +9,19 @@ import {
 export default function useDeleteLodging(onSuccess) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedLodgingId, setSelectedLodgingId] = useState(null);
+  const [confirmMessage, setConfirmMessage] = useState("");
 
-  const openConfirm = (lodgingId) => {
+  const openConfirm = (lodgingId, lodgingName) => {
     setSelectedLodgingId(lodgingId);
+    setConfirmMessage(
+      `¿Estás seguro de que deseas eliminar ${lodgingName}?`
+    );
     setModalOpen(true);
   };
 
   const closeConfirm = () => {
     setSelectedLodgingId(null);
+    setConfirmMessage("");
     setModalOpen(false);
   };
 
@@ -27,7 +32,7 @@ export default function useDeleteLodging(onSuccess) {
         "Eliminado",
         "El alojamiento fue eliminado correctamente."
       );
-      onSuccess?.(); // recarga lista si querés
+      onSuccess?.();
     } catch (err) {
       const message =
         err?.response?.data?.message || "No se pudo eliminar el alojamiento.";
@@ -42,5 +47,6 @@ export default function useDeleteLodging(onSuccess) {
     openConfirm,
     closeConfirm,
     confirmDelete,
+    confirmMessage,
   };
 }
