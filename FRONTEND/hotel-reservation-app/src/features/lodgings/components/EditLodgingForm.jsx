@@ -74,7 +74,7 @@ export default function EditLodgingForm({ lodgingId }) {
           }
           try {
             await updateLodging(formData, address, responsible, images);
-            showSuccessAlert(
+            await showSuccessAlert(
               "¡Alojamiento actualizado!",
               "Los datos del alojamiento se guardaron correctamente."
             );
@@ -154,4 +154,3 @@ export default function EditLodgingForm({ lodgingId }) {
     </div>
   );
 }
-
