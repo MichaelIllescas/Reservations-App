@@ -1,6 +1,5 @@
 package com.reservastrenque.reservas_trenque.products.model;
 
-import com.reservastrenque.reservas_trenque.products.model.Feature;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
@@ -34,11 +33,13 @@ public class Lodging {
     @Column(nullable = false)
     private Integer capacity;
 
-    @ManyToOne
+    // Tipo de alojamiento: ManyToOne es EAGER por default, no hace falta especificar.
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "lodging_type_id", nullable = false)
     private LodgingType type;
 
-    @ManyToMany
+    // Features: relación N:M, siempre LAZY para evitar cargas innecesarias
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "lodging_features",
             joinColumns = @JoinColumn(name = "lodging_id"),
@@ -46,7 +47,8 @@ public class Lodging {
     )
     private Set<Feature> features = new HashSet<>();
 
-    @ElementCollection
+    // Lista de URLs de imágenes. LAZY por default en ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "lodging_images",
             joinColumns = @JoinColumn(name = "lodging_id")
@@ -54,12 +56,13 @@ public class Lodging {
     @Column(name = "image_url")
     private List<String> imageUrls = new ArrayList<>();
 
-
+    // Address: ManyToOne, suele ser EAGER por default.
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "address_id", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    // Responsible: ManyToOne, EAGER por default
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, optional = false)
     @JoinColumn(name = "responsible_id", nullable = false)
     private Responsible responsible;
 

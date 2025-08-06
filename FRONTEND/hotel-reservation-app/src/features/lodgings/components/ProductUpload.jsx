@@ -43,11 +43,25 @@ export default function ProductUpload() {
       <h1>Agregar un nuevo alojamiento</h1>
 
       <form
-  onSubmit={handleSubmit(async (data) => {
-    try {
-      await submitLodging(data, address, responsible, images);
-      await showSuccessAlert("¡Alojamiento publicado!", "Tu alojamiento fue creado exitosamente.");
+  onSubmit={async (e) => {
+    e.preventDefault(); // Evita el refresh del form
 
+    // Validar con tu función existente
+    const validationErrors = validateProductForm(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      return; // No enviar si hay errores
+    }
+
+    try {
+      // Usar el formData directamente
+      await submitLodging(formData, address, responsible, images);
+
+      await showSuccessAlert(
+        "¡Alojamiento publicado!",
+        "Tu alojamiento fue creado exitosamente."
+      );
+
+      // Resetear formulario y estados SOLO después de éxito
       resetForm();
       setAddress(null);
       setResponsible(null);
@@ -63,9 +77,10 @@ export default function ProductUpload() {
     } catch (error) {
       console.error("Error al guardar alojamiento:", error);
     }
-  })}
+  }}
   className="product-upload-form"
 >
+
 
         <LodgingTitleInput
           value={formData.titulo}

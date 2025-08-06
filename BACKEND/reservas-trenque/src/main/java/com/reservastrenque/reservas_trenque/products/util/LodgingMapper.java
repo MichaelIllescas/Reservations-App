@@ -23,13 +23,13 @@ public class LodgingMapper {
 
         return LodgingResponse.builder()
                 .id(lodging.getId())
-                .name(lodging.getName())
                 .description(lodging.getDescription())
+                .name(lodging.getName())
                 .dailyPrice(lodging.getDailyPrice())
                 .capacity(lodging.getCapacity())
                 .lodgingType(lodging.getType().getName())
                 .features(lodging.getFeatures().stream()
-                        .map(this::mapFeature)
+                        .map(LodgingMapper::mapFeature)
                         .collect(Collectors.toSet()))
                 .imageUrls(lodging.getImageUrls())
                 .address(addressResponse)
@@ -38,7 +38,7 @@ public class LodgingMapper {
                 .build();
     }
 
-    private FeatureResponse mapFeature(Feature feature) {
+    private static FeatureResponse mapFeature(Feature feature) {
         return FeatureResponse.builder()
                 .id(feature.getId())
                 .name(feature.getName())

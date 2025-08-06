@@ -65,14 +65,19 @@ function LodgingDetail() {
 
         <div className="mb-3 text-dark features">
           <strong>Detalles:</strong>
-          <ul>
-            {alojamiento.features?.map((f) => (
-              <li key={f.id}>
-                <FaBed className="me-2" />
-                {f.name}
-              </li>
-            ))}
-          </ul>
+                  <ul className="list-unstyled text-muted small">
+  {alojamiento.features.map((feature, i) => (
+    <li key={feature.id || i}>
+      <span className="me-2" style={{ fontSize: "1.2em" }}>
+        {/* Icono desde el backend, ejemplo: "❄️" */}
+        {feature.icon || <FaBed className="me-2" />}
+      </span>
+      {feature.name
+        ? feature.name.replaceAll("_", " ")
+        : "Sin detalle"}
+    </li>
+  ))}
+</ul>
         </div>
 
         <div className="mb-3 text-dark">

@@ -18,10 +18,15 @@ function AlojamientoDisponibleCard({ alojamiento }) {
             </div>
 
             <ul className="list-unstyled text-muted small">
-              {alojamiento.features.map((detalle, i) => (
-                <li key={i}>
-                  <FaBed className="me-2" />
-                  {detalle.replaceAll("_", " ")}
+              {alojamiento.features.map((feature, i) => (
+                <li key={feature.id || i}>
+                  <span className="me-2" style={{ fontSize: "1.2em" }}>
+                    {/* Icono desde el backend, ejemplo: "❄️" */}
+                    {feature.icon || <FaBed className="me-2" />}
+                  </span>
+                  {feature.name
+                    ? feature.name.replaceAll("_", " ")
+                    : "Sin detalle"}
                 </li>
               ))}
             </ul>
@@ -58,6 +63,5 @@ function AlojamientoDisponibleCard({ alojamiento }) {
     </div>
   );
 }
-
 
 export default AlojamientoDisponibleCard;

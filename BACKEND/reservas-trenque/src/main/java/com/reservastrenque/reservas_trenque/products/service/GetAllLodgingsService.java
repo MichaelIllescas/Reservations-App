@@ -7,6 +7,7 @@ import com.reservastrenque.reservas_trenque.products.usecase.GetAllLodgingsUseCa
 import com.reservastrenque.reservas_trenque.products.util.LodgingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ public class GetAllLodgingsService implements GetAllLodgingsUseCase {
     private final LodgingRepository lodgingRepository;
     private final LodgingMapper lodgingMapper;
 
+    @Transactional(readOnly = true)
     @Override
     public List<LodgingResponse> execute() {
         List<LodgingResponse> responseList = lodgingRepository.findAll()
