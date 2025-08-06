@@ -2,8 +2,10 @@ import useLodgingList from "../hooks/useLodgingList";
 import ConfirmationModal from "../../../Components/Modals/ConfirmationModal";
 import "../styles/lodgingsList.css";
 import useDeleteLodging from "../hooks/useDeleteLodging";
+import { useNavigate } from "react-router-dom";
 
 const LodgingList = () => {
+  const navigate = useNavigate();
   const { lodgings, loading, error, reloadLodgings } = useLodgingList();
   const {
     modalOpen,
@@ -41,7 +43,7 @@ const LodgingList = () => {
               <td className="text-muted">{a.lodgingType}</td>
               <td className="text-muted">${a.dailyPrice}/noche</td>
               <td>
-                <span className="text-primary font-weight-bold btn-edit">
+                <span className="text-primary font-weight-bold btn-edit" onClick={() => navigate(`/editlodging/${a.id}`)}>
                   Editar
                 </span>{" "}
                 |{" "}

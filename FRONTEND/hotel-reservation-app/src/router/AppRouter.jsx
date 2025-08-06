@@ -6,6 +6,7 @@ import LodgingDetail from "../features/lodgings/pages/LodgingDetail";
 import AdminDashboard from "../features/admin/pages/AdminDashboard";
 import AddLodgingPage from "../features/lodgings/pages/AddLodgingPage";
 import LodgingPageList from "../features/lodgings/pages/LodgingPageList";
+import EditLodgingPage from "../features/lodgings/pages/EditLodgingPage";
 import FeatureAdminPage from "../features/features/pages/FeatureAdminPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { DeviceProvider } from "../Context/DeviceContext";
@@ -34,6 +35,7 @@ function AppRouter() {
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/addlodging" element={<AddLodgingPage />} />
           <Route path="/lodgingList" element={<LodgingPageList />} />
+          <Route path="/editlodging/:id" element={<EditLodgingPage />} />
           <Route path="/usersList" element={<UsersList />} />
           <Route path="/admin/users/new" element={<CreateUserPage />} />
           <Route path="/admin/features" element={<FeatureAdminPage />} />
