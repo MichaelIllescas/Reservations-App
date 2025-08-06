@@ -26,6 +26,7 @@ public class CategoryService {
         Category category = Category.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
+
                 .build();
         Category saved = categoryRepository.save(category);
         return toResponse(saved);
@@ -36,6 +37,7 @@ public class CategoryService {
                 .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada"));
         category.setTitle(request.getTitle());
         category.setDescription(request.getDescription());
+
         Category saved = categoryRepository.save(category);
         return toResponse(saved);
     }
@@ -49,6 +51,7 @@ public class CategoryService {
                 .id(category.getId())
                 .title(category.getTitle())
                 .description(category.getDescription())
+
                 .build();
     }
 }

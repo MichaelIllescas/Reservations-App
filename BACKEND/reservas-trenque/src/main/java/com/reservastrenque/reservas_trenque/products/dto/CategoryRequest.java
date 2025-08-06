@@ -14,4 +14,5 @@ public class CategoryRequest {
     private String title;
 
     private String description;
+
 }
