@@ -34,7 +34,8 @@ function useForm(initialValues, validateOnSubmit) {
         errors,
         handleChange,
         handleSubmit,
-        resetForm
+        resetForm,
+        setFormData
     };
 }
 

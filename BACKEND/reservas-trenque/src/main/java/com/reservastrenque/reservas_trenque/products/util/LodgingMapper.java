@@ -1,8 +1,6 @@
 package com.reservastrenque.reservas_trenque.products.util;
 
-import com.reservastrenque.reservas_trenque.products.dto.AddressResponse;
-import com.reservastrenque.reservas_trenque.products.dto.FeatureResponse;
-import com.reservastrenque.reservas_trenque.products.dto.LodgingResponse;
+import com.reservastrenque.reservas_trenque.products.dto.*;
 import com.reservastrenque.reservas_trenque.products.model.Feature;
 import com.reservastrenque.reservas_trenque.products.model.Lodging;
 import org.springframework.stereotype.Component;
@@ -38,6 +36,45 @@ public class LodgingMapper {
                 .build();
     }
 
+    public static LodgingDetailResponse toDetailResponse(Lodging lodging) {
+        AddressDetailResponse lodgingAddress = AddressDetailResponse.builder()
+                .street(lodging.getAddress().getStreet())
+                .number(lodging.getAddress().getNumber())
+                .cityId(lodging.getAddress().getCity().getId())
+                .provinceId(lodging.getAddress().getCity().getProvince().getId())
+                .countryId(lodging.getAddress().getCity().getProvince().getCountry().getId())
+                .build();
+
+        AddressDetailResponse responsibleAddress = AddressDetailResponse.builder()
+                .street(lodging.getResponsible().getAddress().getStreet())
+                .number(lodging.getResponsible().getAddress().getNumber())
+                .cityId(lodging.getResponsible().getAddress().getCity().getId())
+                .provinceId(lodging.getResponsible().getAddress().getCity().getProvince().getId())
+                .countryId(lodging.getResponsible().getAddress().getCity().getProvince().getCountry().getId())
+                .build();
+
+        ResponsibleDetailResponse responsible = ResponsibleDetailResponse.builder()
+                .fullName(lodging.getResponsible().getFullName())
+                .email(lodging.getResponsible().getEmail())
+                .phone(lodging.getResponsible().getPhone())
+                .documentNumber(lodging.getResponsible().getDocumentNumber())
+                .address(responsibleAddress)
+                .build();
+
+        return LodgingDetailResponse.builder()
+                .id(lodging.getId())
+                .name(lodging.getName())
+                .description(lodging.getDescription())
+                .dailyPrice(lodging.getDailyPrice())
+                .capacity(lodging.getCapacity())
+                .lodgingTypeId(lodging.getType().getId())
+                .featureIds(lodging.getFeatures().stream().map(Feature::getId).collect(Collectors.toSet()))
+                .address(lodgingAddress)
+                .responsible(responsible)
+                .imageUrls(lodging.getImageUrls())
+                .build();
+    }
+
     private static FeatureResponse mapFeature(Feature feature) {
         return FeatureResponse.builder()
                 .id(feature.getId())
@@ -46,3 +83,4 @@ public class LodgingMapper {
                 .build();
     }
 }
+
