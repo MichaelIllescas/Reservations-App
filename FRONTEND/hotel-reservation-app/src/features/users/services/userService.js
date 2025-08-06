@@ -5,3 +5,9 @@ export const createUser = async (data) => {
   return response.data;
 };
 
+
+export const updateUser = async (data) => {
+  const response = await apiClient.put("/users", data);
+  return response.data;
+};
+

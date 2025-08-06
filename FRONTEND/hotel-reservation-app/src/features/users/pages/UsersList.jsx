@@ -1,9 +1,22 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import useUsers from "../hooks/useUsers";
 import DataTable from '../../../Components/Tables/DataTable';
+import UserEditModal from "../components/UserEditModal";
 
 const UsersList = () => {
   const { users, fetchUsers, toggleAdmin } = useUsers();
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenEdit = (user) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedUser(null);
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -24,6 +37,7 @@ const UsersList = () => {
             <button
               className="btn btn-primary btn-sm "
               style={{ width: "40px", margin: "0 auto", borderRadius: "150px" }}
+              onClick={() => handleOpenEdit(row.original)}
             >
               ✏️
             </button>
@@ -56,6 +70,12 @@ const UsersList = () => {
         <h2>Usuarios Registrados</h2>
         <DataTable columns={columns} data={users} />
       </div>
+      <UserEditModal
+        show={showModal}
+        onClose={handleCloseModal}
+        user={selectedUser}
+        onUpdated={fetchUsers}
+      />
     </div>
   );
 };
