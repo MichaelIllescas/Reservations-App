@@ -11,6 +11,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { DeviceProvider } from "../Context/DeviceContext";
 import ProtectedAdminWrapper from "../Components/Modals/ProtectedAdminWrapper";
 import UsersList from "../features/users/pages/UsersList";
+import CreateUserPage from "../features/users/pages/CreateUserPage";
 
 function AppRouter() {
   return (
@@ -34,6 +35,7 @@ function AppRouter() {
           <Route path="/addlodging" element={<AddLodgingPage />} />
           <Route path="/lodgingList" element={<LodgingPageList />} />
           <Route path="/usersList" element={<UsersList />} />
+          <Route path="/admin/users/new" element={<CreateUserPage />} />
           <Route path="/admin/features" element={<FeatureAdminPage />} />
         </Route>
       </Routes>
