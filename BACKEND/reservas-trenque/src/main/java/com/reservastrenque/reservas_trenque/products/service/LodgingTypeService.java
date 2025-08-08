@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +32,22 @@ public class LodgingTypeService implements LodgingTypeUseCase {
                 .build();
 
         return repository.save(type);
+    }
+
+    @Override
+    public LodgingType update(Long id, LodgingTypeRequest request) {
+        LodgingType type = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Tipo de alojamiento no encontrado"));
+        type.setName(request.getName());
+        type.setIcon(request.getIcon());
+        return repository.save(type);
+    }
+
+    @Override
+    public void delete(Long id) {
+        LodgingType type = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Tipo de alojamiento no encontrado"));
+        type.setActive(false);
+        repository.save(type);
     }
 }

@@ -32,6 +32,7 @@ export default function AdminNavbar() {
               <li><NavLink className="dropdown-item" to="/lodgingList">Listar Productos</NavLink></li>
               <li><NavLink className="dropdown-item" to="/addlodging">Agregar Producto</NavLink></li>
               <li><NavLink className="dropdown-item" to="/admin/features">Administrar características</NavLink></li>
+              <li><NavLink className="dropdown-item" to="/admin/lodging-types">Tipos de alojamiento</NavLink></li>
             </ul>
           </li>
 

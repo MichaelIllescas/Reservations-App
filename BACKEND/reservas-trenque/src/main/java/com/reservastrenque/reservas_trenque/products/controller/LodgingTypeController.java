@@ -35,4 +35,17 @@ public class LodgingTypeController {
         LodgingType created = lodgingTypeUseCase.create(request);
         return ResponseEntity.ok(new ApiResponse<>("Tipo creado", LodgingTypeMapper.toDto(created)));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<LodgingTypeResponse>> update(@PathVariable Long id,
+                                                                   @Valid @RequestBody LodgingTypeRequest request) {
+        LodgingType updated = lodgingTypeUseCase.update(id, request);
+        return ResponseEntity.ok(new ApiResponse<>("Tipo actualizado", LodgingTypeMapper.toDto(updated)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
+        lodgingTypeUseCase.delete(id);
+        return ResponseEntity.ok(new ApiResponse<>("Tipo eliminado", null));
+    }
 }
