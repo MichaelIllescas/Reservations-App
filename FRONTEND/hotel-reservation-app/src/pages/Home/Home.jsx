@@ -1,10 +1,11 @@
 import { useState } from "react";
-import "./home.css";
+import "./Home.css";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import AlojamientoCard from "../../features/lodgings/components/AlojamientoCard";
 import AlojamientoDisponibleCard from "../../features/lodgings/components/AlojamientoDisponibleCard";
 import useAllLodgings from "../../features/lodgings/hooks/useAllLodgings";
-import img from "../../assets/img/Cabañas-El-Molino.webp";
+import useLodgingTypes from "../../features/lodgings/hooks/useLodgingTypes";
+import CategoryFilter from "../../features/categories/components/CategoryFilter";
 
 // Recomendaciones destacadas (estáticas por ahora)
 const recomendaciones = [
@@ -46,12 +47,34 @@ const alojamientosPorPagina = 10;
 
 function Home() {
   const { lodgings, loading, error } = useAllLodgings();
+  const { types: categories } = useLodgingTypes();
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
 
+  const toggleCategory = (name) => {
+    setSelectedCategories((prev) =>
+      prev.includes(name)
+        ? prev.filter((c) => c !== name)
+        : [...prev, name]
+    );
+    setPaginaActual(1);
+  };
+
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setPaginaActual(1);
+  };
+
+  const filteredLodgings = selectedCategories.length
+    ? lodgings.filter((l) => selectedCategories.includes(l.lodgingType))
+    : lodgings;
+
+  const totalFiltrados = filteredLodgings.length;
+
+  const totalPaginas = Math.ceil(totalFiltrados / alojamientosPorPagina) || 1;
   const indexInicio = (paginaActual - 1) * alojamientosPorPagina;
   const indexFin = indexInicio + alojamientosPorPagina;
-  const alojamientosPaginados = lodgings.slice(indexInicio, indexFin);
-  const totalPaginas = Math.ceil(lodgings.length / alojamientosPorPagina);
+  const alojamientosPaginados = filteredLodgings.slice(indexInicio, indexFin);
 
   const cambiarPagina = (pagina) => {
     if (pagina >= 1 && pagina <= totalPaginas) {
@@ -74,12 +97,12 @@ function Home() {
       <div className="d-flex flex-column flex-md-row">
         <section className="categories-section me-md-5">
           <h2 className="highlighted-title">Categorías</h2>
-          <div className="categories-list">
-            <div className="category-item">Hoteles</div>
-            <div className="category-item">Departamentos</div>
-            <div className="category-item">Cabañas</div>
-            <div className="category-item">Casas rurales</div>
-          </div>
+          <CategoryFilter
+            categories={categories}
+            selectedCategories={selectedCategories}
+            onToggle={toggleCategory}
+            onClear={clearFilters}
+          />
         </section>
 
         <section className="recommendations-section flex-grow-1">
@@ -100,6 +123,9 @@ function Home() {
       <section className="available-section mt-5">
         <div className="container">
           <h2 className="text-center mb-4 highlighted-title">Alojamientos disponibles</h2>
+          <p className="text-center">
+            Mostrando {totalFiltrados} de {lodgings.length} alojamientos
+          </p>
 
           {/* Paginación superior */}
           <div className="d-flex justify-content-center mt-4 flex-wrap gap-2 mb-3">
@@ -132,12 +158,15 @@ function Home() {
 
           {/* Cards */}
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-            {alojamientosPaginados.map((alojamiento) => (
-              <div className="col" key={alojamiento.id}>
-                <AlojamientoDisponibleCard alojamiento={alojamiento} />
-                
-              </div>
-            ))}
+            {alojamientosPaginados.length > 0 ? (
+              alojamientosPaginados.map((alojamiento) => (
+                <div className="col" key={alojamiento.id}>
+                  <AlojamientoDisponibleCard alojamiento={alojamiento} />
+                </div>
+              ))
+            ) : (
+              <p className="text-center">No se encontraron alojamientos.</p>
+            )}
           </div>
 
           {/* Paginación inferior */}
