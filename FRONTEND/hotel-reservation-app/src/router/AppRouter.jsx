@@ -9,6 +9,7 @@ import LodgingPageList from "../features/lodgings/pages/LodgingPageList";
 import EditLodgingPage from "../features/lodgings/pages/EditLodgingPage";
 import FeatureAdminPage from "../features/features/pages/FeatureAdminPage";
 import LodgingTypeAdminPage from "../features/lodgingTypes/pages/LodgingTypeAdminPage";
+
 import { ProtectedRoute } from "./ProtectedRoute";
 import { DeviceProvider } from "../Context/DeviceContext";
 import ProtectedAdminWrapper from "../Components/Modals/ProtectedAdminWrapper";
@@ -41,6 +42,7 @@ function AppRouter() {
           <Route path="/admin/users/new" element={<CreateUserPage />} />
           <Route path="/admin/features" element={<FeatureAdminPage />} />
           <Route path="/admin/lodging-types" element={<LodgingTypeAdminPage />} />
+
         </Route>
       </Routes>
     </DeviceProvider>
