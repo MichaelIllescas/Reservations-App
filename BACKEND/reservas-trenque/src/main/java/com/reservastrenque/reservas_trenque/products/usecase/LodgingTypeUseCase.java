@@ -8,4 +8,6 @@ import java.util.List;
 public interface LodgingTypeUseCase {
     List<LodgingType> getAllActive();
     LodgingType create(LodgingTypeRequest request);
+    LodgingType update(Long id, LodgingTypeRequest request);
+    void delete(Long id);
 }
