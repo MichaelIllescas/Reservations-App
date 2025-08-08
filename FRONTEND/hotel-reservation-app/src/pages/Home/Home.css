@@ -41,18 +41,19 @@
 .recommendation-item {
   background-color: #27496d !important; /* Azul profesional */
   color: #ffffff; /* Texto blanco */
-  padding: 15px 20px;
+  padding: 10px 15px;
   border-radius: 8px; /* Bordes redondeados */
-  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  display: flex;
+  align-items: center;
 }
 
 /* Efecto hover */
 .category-item:hover,
 .recommendation-item:hover {
-  background-color: #092060 ; /* Azul más oscuro */
+  background-color: #092060; /* Azul más oscuro */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Más profundidad */
 }
 
@@ -60,6 +61,10 @@
 .category-item,
 .recommendation-item {
   border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+}
+
+.category-item input[type="checkbox"] {
+  margin-right: 8px;
 }
 
 /* Recomendaciones */
