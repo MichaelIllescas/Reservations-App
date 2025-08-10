@@ -4,21 +4,21 @@ import { createLodgingType } from "../services/lodgingTypeService";
 
 export default function AddLodgingTypeModal({ show, onClose, onCreated }) {
   const [name, setName] = useState("");
-  const [code, setCode] = useState("");
+  const [icon, setIcon] = useState("");
   const [error, setError] = useState("");
 
   const handleSave = async () => {
-    if (!name || !code) {
+    if (!name || !icon) {
       setError("Todos los campos son obligatorios.");
       return;
     }
 
     try {
-      const res = await createLodgingType({ name, code });
+      const res = await createLodgingType({ name, icon });
       onCreated(res.data.data);
       onClose();
       setName("");
-      setCode("");
+      setIcon("");
       setError("");
     } catch (err) {
       setError(err?.response?.data?.error || "Error al guardar.");
@@ -41,12 +41,12 @@ export default function AddLodgingTypeModal({ show, onClose, onCreated }) {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Código</Form.Label>
+          <Form.Label>Ícono</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Ej: cabana"
-            value={code}
-            onChange={(e) => setCode(e.target.value.toLowerCase())}
+            placeholder="Ej: fa-hotel"
+            value={icon}
+            onChange={(e) => setIcon(e.target.value)}
           />
         </Form.Group>
         {error && <p className="text-danger mt-2">{error}</p>}
