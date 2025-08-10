@@ -123,7 +123,7 @@ class CreateLodgingServiceTest {
 
 
 
- 
+
 
     @Test
     void execute_withoutImages_throwsIllegalArgumentException() {
