@@ -50,6 +50,7 @@ function Home() {
   const { types: categories } = useLodgingTypes();
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
+  const [searchResults, setSearchResults] = useState([]);
 
   const toggleCategory = (name) => {
     setSelectedCategories((prev) =>
@@ -90,8 +91,24 @@ function Home() {
       {/* Buscador */}
       <section className="search-section">
         <h1 className="my-2 highlighted-title">Busca tu alojamiento en Trenque Lauquen</h1>
-        <SearchBar />
+        <p className="text-center mb-4">
+          Utiliza el buscador para encontrar opciones por nombre o rango de fechas.
+        </p>
+        <SearchBar onResults={setSearchResults} />
       </section>
+
+      {searchResults.length > 0 && (
+        <section className="results-section mt-4">
+          <h2 className="text-center highlighted-title">Resultados de búsqueda</h2>
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+            {searchResults.map((alojamiento) => (
+              <div className="col" key={alojamiento.id}>
+                <AlojamientoDisponibleCard alojamiento={alojamiento} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Categorías y Recomendaciones */}
       <div className="d-flex flex-column flex-md-row">

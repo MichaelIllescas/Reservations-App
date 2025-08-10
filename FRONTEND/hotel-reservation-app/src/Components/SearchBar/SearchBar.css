@@ -14,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  position: relative;
 }
 
 .search-field label {
@@ -22,6 +23,29 @@
   font-weight: bold;
 }
 
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  list-style: none;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+}
+
+.suggestions li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
 /* Input de texto */
 .search-input,
 .search-date {

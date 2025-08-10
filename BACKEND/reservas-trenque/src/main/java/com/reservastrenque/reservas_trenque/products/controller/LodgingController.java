@@ -20,6 +20,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+
 import java.util.List;
 
 @EnableMethodSecurity(prePostEnabled = true)
@@ -33,6 +36,7 @@ public class LodgingController {
     private final DeleteLodgingUseCase deleteLodgingUseCase;
     private final UpdateLodgingUseCase updateLodgingUseCase;
     private final GetLodgingByIdUseCase getLodgingByIdUseCase;
+    private final SearchLodgingsUseCase searchLodgingsUseCase;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -123,6 +127,16 @@ public class LodgingController {
     public ResponseEntity<ApiResponse<List<LodgingResponse>>> getAllLodgings() {
         List<LodgingResponse> lodgings = getAllLodgingsUseCase.execute();
         return ResponseEntity.ok(new ApiResponse<>("Lista de alojamientos obtenida exitosamente", lodgings));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<LodgingResponse>>> searchLodgings(
+            @RequestParam String query,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        List<LodgingResponse> results = searchLodgingsUseCase.execute(query, startDate, endDate);
+        return ResponseEntity.ok(new ApiResponse<>("Alojamientos encontrados", results));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
