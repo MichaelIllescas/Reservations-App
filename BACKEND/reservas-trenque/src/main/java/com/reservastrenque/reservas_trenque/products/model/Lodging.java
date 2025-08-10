@@ -47,8 +47,8 @@ public class Lodging {
     )
     private Set<Feature> features = new HashSet<>();
 
-    // Lista de URLs de imágenes. LAZY por default en ElementCollection
-    @ElementCollection(fetch = FetchType.LAZY)
+    // Lista de URLs de imágenes. EAGER por default en ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "lodging_images",
             joinColumns = @JoinColumn(name = "lodging_id")
