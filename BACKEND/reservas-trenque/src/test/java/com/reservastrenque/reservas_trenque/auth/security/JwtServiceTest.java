@@ -1,6 +1,8 @@
 package com.reservastrenque.reservas_trenque.auth.security;
 
+import com.reservastrenque.reservas_trenque.users.domain.Role;
 import com.reservastrenque.reservas_trenque.users.domain.User;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -28,7 +30,7 @@ class JwtServiceTest {
     private JwtService jwtService;
     private static final String SECRET_KEY = "MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDE=";
 
-    @Mock
+
     private User userDetails;
 
     @BeforeEach
@@ -36,9 +38,14 @@ class JwtServiceTest {
         jwtService = new JwtService();
         ReflectionTestUtils.setField(jwtService, "secretKey", SECRET_KEY);
 
-        when(userDetails.getId()).thenReturn(1L);
-        when(userDetails.getUsername()).thenReturn("user@example.com");
-        when(userDetails.getAuthorities()).thenReturn(List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        // Instancia real de User: el getAuthorities() saldrá de role
+        userDetails = User.builder()
+                .id(1L)
+                .email("user@example.com")  // getUsername() usa email
+                .password("x")               // no importa el valor en estos tests
+                .enabled(true)
+                .role(Role.USER)             // <- CLAVE: esto hace que getAuthorities() devuelva ROLE_USER
+                .build();
     }
 
     @Test
@@ -60,7 +67,7 @@ class JwtServiceTest {
     }
 
     @Test
-    void isTokenValid_ShouldReturnFalseForExpiredToken() {
+    void isTokenValid_ShouldThrowExceptionForExpiredToken() {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", 1L);
         claims.put("role", "ROLE_USER");
@@ -75,8 +82,10 @@ class JwtServiceTest {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        assertFalse(jwtService.isTokenValid(expiredToken, userDetails));
+        assertThrows(ExpiredJwtException.class,
+                () -> jwtService.isTokenValid(expiredToken, userDetails));
     }
+
 
     @Test
     void extractUserId_ShouldReturnCorrectId() {
