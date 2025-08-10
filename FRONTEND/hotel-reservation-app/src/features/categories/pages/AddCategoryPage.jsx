@@ -8,68 +8,23 @@ import {
 } from "../services/categoryService";
 
 export default function AddCategoryPage() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [message, setMessage] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [editingId, setEditingId] = useState(null);
+import AdminNavbar from "../../admin/components/AdminNavbar";
+import useCategories from "../hooks/useCategories";
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const { data } = await getCategories();
-      setCategories(data);
-    } catch {
-      setMessage("Error al cargar las categorías");
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (editingId) {
-        await updateCategory(editingId, { title, description, imageUrl });
-        setMessage("Categoría actualizada");
-      } else {
-        await createCategory({ title, description, imageUrl });
-        setMessage("Categoría creada con éxito");
-      }
-      setTitle("");
-      setDescription("");
-      setImageUrl("");
-      setEditingId(null);
-      fetchCategories();
-    } catch {
-      setMessage("Error al guardar la categoría");
-    }
-  };
-
-  const handleEdit = (cat) => {
-    setTitle(cat.title);
-    setDescription(cat.description);
-    setImageUrl(cat.imageUrl || "");
-    setEditingId(cat.id);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteCategory(id);
-      fetchCategories();
-    } catch {
-      setMessage("Error al eliminar la categoría");
-    }
-  };
-
-  const handleCancel = () => {
-    setTitle("");
-    setDescription("");
-    setImageUrl("");
-    setEditingId(null);
-  };
+export default function AddCategoryPage() {
+  const {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    message,
+    categories,
+    editingId,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    handleCancel,
+  } = useCategories();
 
   return (
     <div>
@@ -101,14 +56,6 @@ export default function AddCategoryPage() {
                       onChange={(e) => setDescription(e.target.value)}
                     />
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">URL de imagen</label>
-                    <input
-                      className="form-control"
-                      value={imageUrl}
-                      onChange={(e) => setImageUrl(e.target.value)}
-                    />
-                  </div>
                   <button type="submit" className="btn btn-primary">
                     {editingId ? "Actualizar" : "Guardar"}
                   </button>
@@ -131,7 +78,6 @@ export default function AddCategoryPage() {
                 <tr>
                   <th>Título</th>
                   <th>Descripción</th>
-                  <th>Imagen</th>
                   <th className="text-end">Acciones</th>
                 </tr>
               </thead>
@@ -141,17 +87,6 @@ export default function AddCategoryPage() {
                     <tr key={cat.id}>
                       <td>{cat.title}</td>
                       <td>{cat.description}</td>
-                      <td>
-                        {cat.imageUrl ? (
-                          <img
-                            src={cat.imageUrl}
-                            alt={cat.title}
-                            style={{ width: "40px", height: "40px", objectFit: "cover" }}
-                          />
-                        ) : (
-                          "-"
-                        )}
-                      </td>
                       <td className="text-end">
                         <button
                           className="btn btn-sm btn-outline-primary me-2"
@@ -170,7 +105,7 @@ export default function AddCategoryPage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="text-center">
+                    <td colSpan="3" className="text-center">
                       No hay categorías
                     </td>
                   </tr>

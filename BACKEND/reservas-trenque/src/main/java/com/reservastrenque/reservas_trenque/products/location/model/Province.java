@@ -25,7 +25,7 @@ public class Province {
     private String name;
 
     @NotNull(message = "La provincia debe estar asociada a un país.")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 

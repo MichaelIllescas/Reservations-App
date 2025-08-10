@@ -20,7 +20,7 @@ public class LodgingTypeController {
 
     private final LodgingTypeUseCase lodgingTypeUseCase;
 
-    @GetMapping
+    @GetMapping("/getLodgings-types")
     public ResponseEntity<ApiResponse<List<LodgingTypeResponse>>> getAll() {
         List<LodgingTypeResponse> list = lodgingTypeUseCase.getAllActive()
                 .stream()

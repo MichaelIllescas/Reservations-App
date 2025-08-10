@@ -2,7 +2,7 @@
 import apiClient from "../../../services/apiClient";
 
 export const getLodgingTypes = () => {
-  return apiClient.get("/lodging-types");
+  return apiClient.get("/lodging-types/getLodgings-types");
 };
 
 export const createLodgingType = (data) => {

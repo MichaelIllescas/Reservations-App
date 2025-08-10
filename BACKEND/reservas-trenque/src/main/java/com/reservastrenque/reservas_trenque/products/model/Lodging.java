@@ -38,8 +38,8 @@ public class Lodging {
     @JoinColumn(name = "lodging_type_id", nullable = false)
     private LodgingType type;
 
-    // Features: relación N:M, siempre LAZY para evitar cargas innecesarias
-    @ManyToMany(fetch = FetchType.LAZY)
+    // Features: relación N:M
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "lodging_features",
             joinColumns = @JoinColumn(name = "lodging_id"),

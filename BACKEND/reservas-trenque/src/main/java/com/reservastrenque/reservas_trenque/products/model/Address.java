@@ -25,7 +25,7 @@ public class Address {
     @NotBlank(message = "El número no puede estar vacío.")
     private String number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id", nullable = false)
     @NotNull(message = "La ciudad es obligatoria.")
     private City city;
