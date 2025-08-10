@@ -8,7 +8,7 @@ export default function LodgingTypeSelect({ value, onChange, error }) {
 
   const handleCreated = (newType) => {
     setTypes((prev) => [...prev, newType]);
-    onChange(newType.code);
+    onChange(String(newType.id));
   };
 
   return (
